@@ -22,6 +22,7 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
 
+        XXXXX
         $projects = Project::where([
             ['name', '!=', Null],
             [function ($query) use ($request) {
