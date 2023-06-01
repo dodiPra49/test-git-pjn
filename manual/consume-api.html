@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii -->
+<html lang="en" class="js-focus-visible" data-js-focus-visible=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>How to consume RESTful APIs in Laravel 8 and Laravel 7 - DEV Community 👩‍💻👨‍💻</title>
+      <meta name="last-updated" content="2023-02-05 07:49:39 UTC">
+      <meta name="user-signed-in" content="false">
+      <meta name="head-cached-at" content="1675583379">
+        <!-- Experimental web monetization payment pointer for micropayments -->
+        <!-- It lets readers make micropayments to websites they visit. -->
+        <!-- This is step 1: Get live in production to test for platform-wide payment pointer. -->
+        <!-- Step 2: Allow authors to set their payment pointer so they can directly monetize their content based on visitors. -->
+        <!-- Step 3: Enable further functionality based on what we learn from this experimentation and how the ecosystem evolves. -->
+        <meta name="monetization" content="$ilp.uphold.com/24HhrUGG7ekn">
+      <meta name="environment" content="production">
+      <link rel="stylesheet" href="./consume-api_files/minimal-43220ad06e4acf236aefc343d420b020360c3c285e90e21e40c73bd8d26cc2c2.css" media="all" id="main-minimal-stylesheet">
+<link rel="stylesheet" href="./consume-api_files/views-4dfaff92a55e672ff24aa94ea4f8377e801804cb4ebab9ca282ec225d8f0e058.css" media="all" id="main-views-stylesheet">
+<link rel="stylesheet" href="./consume-api_files/crayons-4b9442d4b24ea0e665daca67a9824e8acda2cdbcd75c1f9a307d01990abbc826.css" media="all" id="main-crayons-stylesheet">
+
+      <script async="" src="./consume-api_files/analytics.js.download"></script><script src="./consume-api_files/base-bb53898178e7a6557807ce845d06cd2d60fd1e7ab108f2bad351d5bb92ec53b9.js.download" defer="defer"></script>
+        <script src="./consume-api_files/runtime_base-63dcc38ba3239136e51f.js.download" defer="defer"></script>
+<script src="./consume-api_files/base-a8b01bf73d1f89fa80bd.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/runtime_baseInitializers-44b1637788d4365b9f67.js.download" defer="defer"></script>
+<script src="./consume-api_files/baseInitializers-8466287eee556b4c7f6c.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/runtime_Search-d6b82907ac4c706ab6ee.js.download" defer="defer"></script>
+<script src="./consume-api_files/0-6bf46cb11ef27e3ebc1f.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/1-ab6bf4102bbedc73ff4d.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/Search-2d77219cbeb33d6f1865.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/runtime_runtimeBanner-3831a809b3ffb1e69d79.js.download" defer="defer"></script>
+<script src="./consume-api_files/runtimeBanner-55f94f37bebc36fa656d.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/runtime_baseTracking-08dd6ba5ff75a8bea931.js.download" defer="defer"></script>
+<script src="./consume-api_files/baseTracking-944e6a03a8cff31ef4d5.chunk.js.download" defer="defer"></script>
+      
+    <link rel="canonical" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii">
+    <meta name="description" content="Today, I am going to show you how to consume RESTful APIs, in my previous post I discuss How to Creat... Tagged with php, laravel, beginners, webdev.">
+    <meta name="keywords" content="php, laravel, beginners, webdev, software, coding, development, engineering, inclusive, community">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii">
+    <meta property="og:title" content="How to consume RESTful APIs in Laravel 8 and Laravel 7">
+    <meta property="og:description" content="Today, I am going to show you how to consume RESTful APIs, in my previous post I discuss How to Creat...">
+    <meta property="og:site_name" content="DEV Community 👩‍💻👨‍💻">
+    <meta name="twitter:site" content="@thepracticaldev">
+    <meta name="twitter:creator" content="@">
+    <meta name="twitter:title" content="How to consume RESTful APIs in Laravel 8 and Laravel 7">
+    <meta name="twitter:description" content="Today, I am going to show you how to consume RESTful APIs, in my previous post I discuss How to Creat...">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:widgets:new-embed-design" content="on">
+    <meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+      <meta property="og:image" content="https://dev.to/social_previews/article/499786.png">
+      <meta name="twitter:image:src" content="https://dev.to/social_previews/article/499786.png">
+
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+      <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/practicaldev/image/fetch/s--E8ak4Hr1--/c_limit,f_auto,fl_progressive,q_auto,w_32/https://dev-to.s3.us-east-2.amazonaws.com/favicon.ico">
+      <link rel="apple-touch-icon" href="https://res.cloudinary.com/practicaldev/image/fetch/s--gDM0_LTS--/c_limit,f_png,fl_progressive,q_80,w_180/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/devlogo-pwa-512.png">
+      <link rel="apple-touch-icon" sizes="152x152" href="https://res.cloudinary.com/practicaldev/image/fetch/s--l0c3Kmql--/c_limit,f_png,fl_progressive,q_80,w_152/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/devlogo-pwa-512.png">
+      <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/practicaldev/image/fetch/s--gDM0_LTS--/c_limit,f_png,fl_progressive,q_80,w_180/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/devlogo-pwa-512.png">
+      <link rel="apple-touch-icon" sizes="167x167" href="https://res.cloudinary.com/practicaldev/image/fetch/s--2ecYCSjC--/c_limit,f_png,fl_progressive,q_80,w_167/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/devlogo-pwa-512.png">
+      <link href="https://res.cloudinary.com/practicaldev/image/fetch/s--t7tVouP9--/c_limit,f_png,fl_progressive,q_80,w_192/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/devlogo-pwa-512.png" rel="icon" sizes="192x192">
+      <link href="https://res.cloudinary.com/practicaldev/image/fetch/s--lrmEcD2H--/c_limit,f_png,fl_progressive,q_80,w_128/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/devlogo-pwa-512.png" rel="icon" sizes="128x128">
+      <meta name="apple-mobile-web-app-title" content="dev.to">
+      <meta name="application-name" content="dev.to">
+      <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+      <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+      <link rel="search" href="https://dev.to/open-search.xml" type="application/opensearchdescription+xml" title="DEV Community 👩‍💻👨‍💻">
+
+      <meta property="forem:name" content="DEV Community 👩‍💻👨‍💻">
+      <meta property="forem:logo" content="https://res.cloudinary.com/practicaldev/image/fetch/s--PFPhV65b--/c_limit,f_png,fl_progressive,q_80,w_512/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/devlogo-pwa-512.png">
+      <meta property="forem:domain" content="dev.to">
+  <script charset="utf-8" src="./consume-api_files/154-896881737919458b2d91.chunk.js.download"></script><script src="./consume-api_files/js" async=""></script><meta name="csrf-param" content="authenticity_token"><meta name="csrf-token" content="wDW7PPQ4VVOkO2rj-Eb_cQsBu2RgIO_UTvcNzOZXteIizf27qnA8RtiKFoCLr7pjRLpuokFPdF7_znuXuAsRGw"><script charset="utf-8" src="./consume-api_files/148-c3984d0231f46571a457.chunk.js.download"></script></head>
+      <body class="sans-serif-article-body default-header" data-user-status="logged-out" data-community-name="DEV Community 👩‍💻👨‍💻" data-locale="en" data-honeybadger-key="a45862f6" data-deployed-at="2023-02-03T21:29:41Z" data-latest-commit-id="b2444d032d049d71968f261e22bcd0b75ef8b091" data-ga-tracking="UA-71991109-1" data-ga4-tracking-id="G-TYEM8Y3JN3" data-runtime="Browser-Windows" data-loaded="true">
+        <link rel="stylesheet" href="./consume-api_files/minimal-43220ad06e4acf236aefc343d420b020360c3c285e90e21e40c73bd8d26cc2c2.css" media="all" id="secondary-minimal-stylesheet">
+<link rel="stylesheet" href="./consume-api_files/views-4dfaff92a55e672ff24aa94ea4f8377e801804cb4ebab9ca282ec225d8f0e058.css" media="all" id="secondary-views-stylesheet">
+<link rel="stylesheet" href="./consume-api_files/crayons-4b9442d4b24ea0e665daca67a9824e8acda2cdbcd75c1f9a307d01990abbc826.css" media="all" id="secondary-crayons-stylesheet">
+
+        <div id="body-styles">
+          <style>
+            :root {
+              --accent-brand-lighter-rgb: 80, 99, 301;
+              --accent-brand-rgb: 59, 73, 223;
+              --accent-brand-darker-rgb: 47, 58, 178;
+            }
+          </style>
+        </div>
+        <div id="audiocontent" data-podcast="">
+          
+        </div>
+        <div class="navigation-progress" id="navigation-progress"></div>
+<header class="crayons-header print-hidden">
+  <span id="route-change-target" tabindex="-1"></span>
+  <a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#main-content" class="skip-content-link">Skip to content</a>
+  <div class="crayons-header__container">
+    <span class="inline-block m:hidden ">
+      <button class="c-btn c-btn--icon-alone js-hamburger-trigger mx-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="ao47pgutj5ucurwbri94mo766bus74jj" class="crayons-icon"><title id="ao47pgutj5ucurwbri94mo766bus74jj">Navigation menu</title>
+    <path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"></path>
+</svg>
+
+      </button>
+    </span>
+    <a href="https://dev.to/" class="site-logo" aria-label="DEV Community 👩‍💻👨‍💻 Home">
+    <img class="site-logo__img" src="./consume-api_files/resized_logo_UQww2soKuUsjaOGNB38o.png" alt="DEV Community 👩‍💻👨‍💻">
+</a>
+
+
+    <div class="crayons-header--search js-search-form" id="header-search"><form method="get" action="https://dev.to/search" role="search" accept-charset="UTF-8"><input name="utf8" type="hidden" value="✓"><div class="crayons-fields crayons-fields--horizontal"><div class="crayons-field flex-1 relative"><input class="crayons-header--search-input crayons-textfield" type="text" id="" name="q" placeholder="Search..." autocomplete="off" aria-label="Search term"><button type="submit" aria-label="Search" class="c-btn c-btn--icon-alone absolute inset-px left-auto mt-0 py-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" class="crayons-icon c-btn__icon" focusable="false"><path d="m18.031 16.617 4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path></svg></button></div></div></form>
+      
+    </div>
+
+    <div class="flex items-center h-100 ml-auto">
+      <a class="c-link c-link--icon-alone c-link--block m:hidden mx-1" id="search-link" aria-label="Search" href="https://dev.to/search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="aj8z0gpimqili40rwgd26wqydjgy1kxt" class="crayons-icon"><title id="aj8z0gpimqili40rwgd26wqydjgy1kxt">Search</title>
+    <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0111 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 01-1.969 5.617zm-2.006-.742A6.977 6.977 0 0018 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 004.875-1.975l.15-.15z"></path>
+</svg>
+
+      </a>
+        <div class="flex" id="authentication-top-nav-actions">
+          <span class="hidden m:block">
+            <a href="https://dev.to/enter" class="c-link c-link--block mr-2 whitespace-nowrap ml-auto" data-no-instant="">
+              Log in
+            </a>
+          </span>
+
+          <a href="https://dev.to/enter?state=new-user" data-tracking-id="ca_top_nav" data-tracking-source="top_navbar" class="c-cta c-cta--branded whitespace-nowrap mr-2" data-no-instant="">
+            Create account
+          </a>
+        </div>
+    </div>
+  </div>
+</header>
+
+<div class="hamburger">
+  <div class="hamburger__content">
+    <header class="hamburger__content__header">
+      <h2 class="fs-l fw-bold flex-1 break-word lh-tight">DEV Community 👩‍💻👨‍💻</h2>
+
+      <button class="c-btn c-btn--icon-alone js-hamburger-trigger shrink-0" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="apcowakpgtp1iurwd1qrsr4kqm16yrdh" aria-hidden="true" class="crayons-icon c-btn__icon"><title id="apcowakpgtp1iurwd1qrsr4kqm16yrdh">Close</title><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636l4.95 4.95z"></path></svg>
+
+      </button>
+    </header>
+
+    <div class="p-2 js-navigation-links-container" id="authentication-hamburger-actions">
+    </div>
+  </div>
+  <div class="hamburger__overlay js-hamburger-trigger"></div>
+</div>
+
+
+        <div id="active-broadcast" class="broadcast-wrapper"></div>
+        <div id="message-notice"></div>
+  <div id="base-payment-pointer" data-payment-pointer="$ilp.uphold.com/24HhrUGG7ekn"></div>
+<div id="page-content" class="wrapper stories stories-show" data-current-page="stories-show">
+  <div id="page-content-inner" data-follow-clicks-initialized="true">
+    <div id="page-route-change" class="screen-reader-only" aria-live="polite" aria-atomic="true"></div>
+    
+
+
+<style>
+  .html-variant-wrapper { display: none}
+</style>
+
+<script src="./consume-api_files/webcomponents-loader.js.download" integrity="sha384-3HK5hxQbkFqOIxMbpROlRmRtYl2LBZ52t+tqcjzsmr9NJuOWQxl8RgQSyFvq2lhy" crossorigin="anonymous" defer=""></script>
+
+  <script src="./consume-api_files/runtime_webShare-ea97f8dcb0859198f41e.js.download" defer="defer"></script>
+<script src="./consume-api_files/webShare-06f86e9259ab4ca94581.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/runtime_articlePage-4cfa1da112334a68f7ff.js.download" defer="defer"></script>
+<script src="./consume-api_files/0-6bf46cb11ef27e3ebc1f.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/1-ab6bf4102bbedc73ff4d.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/articlePage-19fc9df64ee463af6a59.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/runtime_commentDropdowns-e39d2ab6efa8fc2985a7.js.download" defer="defer"></script>
+<script src="./consume-api_files/commentDropdowns-95af0fcc1161d55a6991.chunk.js.download" defer="defer"></script>
+
+    <script type="application/ld+json">
+      {"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii"},"url":"https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii","image":["https://dev.to/social_previews/article/499786.png","https://dev.to/social_previews/article/499786.png","https://dev.to/social_previews/article/499786.png"],"publisher":{"@context":"http://schema.org","@type":"Organization","name":"DEV Community 👩‍💻👨‍💻","logo":{"@context":"http://schema.org","@type":"ImageObject","url":"https://res.cloudinary.com/practicaldev/image/fetch/s--t7tVouP9--/c_limit,f_png,fl_progressive,q_80,w_192/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/devlogo-pwa-512.png","width":"192","height":"192"}},"headline":"How to consume RESTful APIs in Laravel 8 and Laravel 7","author":{"@context":"http://schema.org","@type":"Person","url":"https://dev.to/kingsconsult","name":"Kingsconsult"},"datePublished":"2020-10-28T03:50:55Z","dateModified":"2020-12-25T17:13:20Z"}
+    </script>
+
+  
+<div class="crayons-layout crayons-layout--3-cols crayons-layout--article">
+  <aside class="crayons-layout__sidebar-left" aria-label="Article actions">
+    <div class="crayons-article-actions print-hidden">
+  <div class="crayons-article-actions__inner">
+        <button id="reaction-butt-like" aria-label="Like" aria-pressed="false" class="crayons-reaction crayons-reaction--like crayons-tooltip__activator relative activated" data-category="like">
+    <span class="crayons-reaction__icon  crayons-reaction__icon--inactive">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-hidden="true" class="crayons-icon">
+    <path d="M21.179 12.794l.013.014L12 22l-9.192-9.192.013-.014A6.5 6.5 0 0112 3.64a6.5 6.5 0 019.179 9.154zM4.575 5.383a4.5 4.5 0 000 6.364L12 19.172l7.425-7.425a4.5 4.5 0 10-6.364-6.364L8.818 9.626 7.404 8.21l3.162-3.162a4.5 4.5 0 00-5.99.334l-.001.001z"></path>
+</svg>
+
+    </span>
+    <span class="crayons-reaction__count" id="reaction-number-like">20</span>
+
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Like
+    </span>
+</button>
+
+
+  <button id="reaction-butt-comment" aria-label="Jump to Comments" aria-pressed="false" class="crayons-reaction crayons-reaction--comment crayons-tooltip__activator relative" data-category="comment">
+      <span class="crayons-reaction__icon  crayons-reaction__icon--inactive">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-hidden="true" class="crayons-icon">
+    <path d="M10 3h4a8 8 0 010 16v3.5c-5-2-12-5-12-11.5a8 8 0 018-8zm2 14h2a6 6 0 000-12h-4a6 6 0 00-6 6c0 3.61 2.462 5.966 8 8.48V17z"></path>
+</svg>
+
+      </span>
+      <span class="crayons-reaction__count" id="reaction-number-comment">6</span>
+
+      <span data-testid="tooltip" class="crayons-tooltip__content">
+        Jump to Comments
+      </span>
+  </button>
+
+<button id="reaction-butt-readinglist" aria-label="Add to reading list" aria-pressed="false" class="crayons-reaction crayons-reaction--readinglist crayons-tooltip__activator relative activated" data-category="readinglist">
+    <span class="crayons-reaction__icon  crayons-reaction__icon--inactive">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-hidden="true" class="crayons-icon">
+    <path d="M5 2h14a1 1 0 011 1v19.143a.5.5 0 01-.766.424L12 18.03l-7.234 4.536A.5.5 0 014 22.143V3a1 1 0 011-1zm13 2H6v15.432l6-3.761 6 3.761V4z"></path>
+</svg>
+
+    </span>
+    <span class="crayons-reaction__count" id="reaction-number-readinglist">38</span>
+
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Save
+    </span>
+</button>
+
+
+    <div id="mod-actions-menu-btn-area" class="print-hidden hidden align-center"></div>
+    <div class="align-center m:relative">
+      <button id="article-show-more-button" aria-controls="article-show-more-dropdown" aria-expanded="false" aria-haspopup="true" class="dropbtn crayons-btn crayons-btn--ghost-dimmed crayons-btn--icon-rounded" aria-label="Share post options" data-initialized="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="albb5enh3on069q2w4jo8v5zdby40gn8" aria-hidden="true" class="crayons-icon dropdown-icon"><title id="albb5enh3on069q2w4jo8v5zdby40gn8">More...</title><path fill-rule="evenodd" clip-rule="evenodd" d="M7 12a2 2 0 11-4 0 2 2 0 014 0zm7 0a2 2 0 11-4 0 2 2 0 014 0zm5 2a2 2 0 100-4 2 2 0 000 4z"></path></svg>
+
+      </button>
+
+      <div id="article-show-more-dropdown" class="crayons-dropdown side-bar left-2 right-2 m:right-auto m:left-100 s:left-auto mb-1 m:mb-0 top-unset bottom-100 m:top-0 m:bottom-unset">
+        <div>
+          <button id="copy-post-url-button" class="flex justify-between crayons-link crayons-link--block w-100 bg-transparent border-0" data-posturl="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii">
+            <span class="fw-bold">Copy link</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="article-copy-icon" role="img" aria-labelledby="a1gtttydu9qxel9uyybbl1m2npgf94aq" aria-hidden="true" class="crayons-icon mx-2 shrink-0"><title id="a1gtttydu9qxel9uyybbl1m2npgf94aq">Copy link</title>
+    <path d="M7 6V3a1 1 0 011-1h12a1 1 0 011 1v14a1 1 0 01-1 1h-3v3c0 .552-.45 1-1.007 1H4.007A1 1 0 013 21l.003-14c0-.552.45-1 1.007-1H7zm2 0h8v10h2V4H9v2zm-2 5v2h6v-2H7zm0 4v2h6v-2H7z"></path>
+</svg>
+
+          </button>
+          <div id="article-copy-link-announcer" aria-live="polite" class="crayons-notice crayons-notice--success my-2 p-1" hidden="">Copied to Clipboard</div>
+        </div>
+
+        <div class="Desktop-only">
+          <a target="_blank" class="crayons-link crayons-link--block" rel="noopener" href="https://twitter.com/intent/tweet?text=%22How%20to%20consume%20RESTful%20APIs%20in%20Laravel%208%20and%20Laravel%207%22%20by%20Kingsconsult%20%23DEVCommunity%20https%3A%2F%2Fdev.to%2Fkingsconsult%2Fhow-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii">
+            Share to Twitter
+          </a>
+          <a target="_blank" class="crayons-link crayons-link--block" rel="noopener" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fdev.to%2Fkingsconsult%2Fhow-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii&amp;title=How%20to%20consume%20RESTful%20APIs%20in%20Laravel%208%20and%20Laravel%207&amp;summary=Today%2C%20I%20am%20going%20to%20show%20you%20how%20to%20consume%20RESTful%20APIs%2C%20in%20my%20previous%20post%20I%20discuss%20How%20to%20Creat...&amp;source=DEV%20Community%20%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%91%A8%E2%80%8D%F0%9F%92%BB">
+            Share to LinkedIn
+          </a>
+          <a target="_blank" class="crayons-link crayons-link--block" rel="noopener" href="https://www.reddit.com/submit?url=https%3A%2F%2Fdev.to%2Fkingsconsult%2Fhow-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii&amp;title=How%20to%20consume%20RESTful%20APIs%20in%20Laravel%208%20and%20Laravel%207">
+            Share to Reddit
+          </a>
+          <a target="_blank" class="crayons-link crayons-link--block" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdev.to%2Fkingsconsult%2Fhow-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii&amp;t=How%20to%20consume%20RESTful%20APIs%20in%20Laravel%208%20and%20Laravel%207">
+            Share to Hacker News
+          </a>
+          <a target="_blank" class="crayons-link crayons-link--block" rel="noopener" href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fdev.to%2Fkingsconsult%2Fhow-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii">
+            Share to Facebook
+          </a>
+          <a target="_blank" class="crayons-link crayons-link--block" rel="noopener" href="https://toot.kytta.dev/?text=https%3A%2F%2Fdev.to%2Fkingsconsult%2Fhow-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii">
+            Share to Mastodon
+          </a>
+        </div>
+
+        <web-share-wrapper shareurl="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii" sharetitle="How to consume RESTful APIs in Laravel 8 and Laravel 7" sharetext="Today, I am going to show you how to consume RESTful APIs, in my previous post I discuss How to Creat..." template="web-share-button">
+          <a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#" class="dropdown-link-row crayons-link crayons-link--block">Share Post via...</a>
+        </web-share-wrapper>
+        <template id="web-share-button"></template>
+
+        <a href="https://dev.to/report-abuse" class="crayons-link crayons-link--block">Report Abuse</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </aside>
+
+  <main id="main-content" class="crayons-layout__content grid gap-4">
+    <div class="article-wrapper">
+
+
+      <article class="crayons-card crayons-article mb-4" id="article-show-container" data-article-id="499786" data-article-slug="how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii" data-author-id="207008" data-author-name="Kingsconsult" data-author-username="kingsconsult" data-co-author-ids="" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii" data-pin-path="/stories/feed/pinned_article" data-pinned-article-id="" data-published="true" data-scheduled="false">
+        <header class="crayons-article__header" id="main-title">
+
+          <div class="crayons-article__header__meta">
+            <div class="flex s:items-start flex-col s:flex-row">
+              <div id="action-space" class="crayons-article__actions mb-4 s:mb-0 s:order-last"></div>
+              <div class="flex flex-1 mb-5 items-start">
+                <div class="relative">
+                    <a href="https://dev.to/kingsconsult"><img class="radius-full align-middle" src="./consume-api_files/824cfe72-bea5-409c-ba5d-88553171edd3.png" width="40" height="40" alt="Kingsconsult"></a>
+                </div>
+                <div class="pl-3 flex-1">
+                  <a href="https://dev.to/kingsconsult" class="crayons-link fw-bold">Kingsconsult</a>
+                  <p class="fs-xs color-base-60">
+                      Posted on <time datetime="2020-10-28T03:50:55Z" class="date" title="Wednesday, October 28, 2020 at 10:50:55 AM">Oct 28, 2020</time>
+
+                      • Updated on <time datetime="2020-12-25T17:13:20Z" class="date" title="Saturday, December 26, 2020 at 12:13:20 AM">Dec 26, 2020</time>
+
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            
+
+            <h1 class="fs-3xl m:fs-4xl l:fs-5xl fw-bold s:fw-heavy lh-tight mb-2 medium">
+              How to consume RESTful APIs in Laravel 8 and Laravel 7
+            </h1>
+
+              <div class="spec__tags flex flex-wrap">
+                  <a class="crayons-tag   " style="
+        --tag-bg: rgba(35, 161, 170, 0.10);
+        --tag-prefix: #23A1AA;
+        --tag-bg-hover: rgba(35, 161, 170, 0.10);
+        --tag-prefix-hover: #23A1AA;
+      " href="https://dev.to/t/php"><span class="crayons-tag__prefix">#</span>php</a>
+                  <a class="crayons-tag   " style="
+        --tag-bg: rgba(220, 45, 23, 0.10);
+        --tag-prefix: #dc2d17;
+        --tag-bg-hover: rgba(220, 45, 23, 0.10);
+        --tag-prefix-hover: #dc2d17;
+      " href="https://dev.to/t/laravel"><span class="crayons-tag__prefix">#</span>laravel</a>
+                  <a class="crayons-tag   " style="
+        --tag-bg: rgba(0, 131, 53, 0.10);
+        --tag-prefix: #008335;
+        --tag-bg-hover: rgba(0, 131, 53, 0.10);
+        --tag-prefix-hover: #008335;
+      " href="https://dev.to/t/beginners"><span class="crayons-tag__prefix">#</span>beginners</a>
+                  <a class="crayons-tag   " style="
+        --tag-bg: rgba(86, 39, 101, 0.10);
+        --tag-prefix: #562765;
+        --tag-bg-hover: rgba(86, 39, 101, 0.10);
+        --tag-prefix-hover: #562765;
+      " href="https://dev.to/t/webdev"><span class="crayons-tag__prefix">#</span>webdev</a>
+              </div>
+          </div>
+        </header>
+
+        <div class="crayons-article__main">
+            
+  <nav class="series-switcher crayons-card crayons-card--secondary">
+    <header class="crayons-card__header">
+      <h2 class="crayons-subtitle-2">
+        <a href="https://dev.to/kingsconsult/series/10342">Creating and Consuming API (2 Part Series)</a>
+      </h2>
+    </header>
+
+    <div class="series-switcher__list">
+
+          <a href="https://dev.to/kingsconsult/how-to-create-a-secure-crud-restful-api-in-laravel-8-and-7-using-laravel-passport-31fh" class="crayons-link crayons-link--contentful series-switcher__link  " data-preload-image="" title="Published Oct 15 &#39;20">
+            <span class="series-switcher__num">1</span>
+            <span class="series-switcher__title">How to Create a Secure CRUD RESTful API in Laravel 8 and 7  Using Laravel Passport</span>
+          </a>
+
+          <a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii" class="crayons-link crayons-link--contentful series-switcher__link series-switcher__link--active " data-preload-image="" title="Published Oct 28 &#39;20">
+            <span class="series-switcher__num">2</span>
+            <span class="series-switcher__title">How to consume RESTful APIs in Laravel 8 and Laravel 7</span>
+          </a>
+    </div>
+  </nav>
+
+
+          <div class="crayons-article__body text-styles spec__body" data-article-id="499786" id="article-body">
+            <p>Today, I am going to show you how to consume RESTful APIs, in my previous post I discuss <a href="https://dev.to/kingsconsult/how-to-create-a-secure-crud-restful-api-in-laravel-8-and-7-using-laravel-passport-31fh">How to Create a Secure CRUD RESTful API in Laravel 8 and 7 Using Laravel Passport</a>, the article teaches you how to create a RESTful API and also securing the API with Passport, Laravel Passport is the official OAuth2 server for Laravel apps. It provides you with a full OAuth2 server implementation. <br>
+But in this article, we are only going to be discussing how to consume external API. Why some APIs are authenticated which will require providing a token in order to access the API, others are not authenticated, which means you can access the API without a token.<br>
+This article will show you how to implement the two instances. We are going to be using the code from my previous article <a href="https://dev.to/kingsconsult/laravel-8-crud-bi9">Laravel 8 CRUD App, A simple guide</a>, this is the <a href="https://github.com/Kingsconsult/laravel_8_crud">GitHub repo</a>  for the code snippets. </p>
+
+<p>Click on my <a href="https://dev.to/kingsconsult">profile</a> to follow me to get more updates.</p>
+<h3>
+  <a name="step-1-setup-the-app" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#step-1-setup-the-app" class="anchor">
+  </a>
+  <strong>Step 1: Setup the app</strong>
+</h3>
+
+<ol>
+<li>git clone <a href="https://github.com/Kingsconsult/laravel_8_crud.git">https://github.com/Kingsconsult/laravel_8_crud.git</a>
+</li>
+<li>cd laravel_8_crud/</li>
+<li>composer install</li>
+<li>npm install</li>
+<li>cp .env.example .env</li>
+<li>php artisan key:generate</li>
+<li>Add your database config in the .env file (you can check my articles on how to achieve that)</li>
+<li>php artisan migrate</li>
+<li>php artisan serve (if the server opens up, <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000</a>,  then we are good to go)
+<img src="./consume-api_files/4_pp7r76.png" alt="localhost" loading="lazy">
+</li>
+<li>Navigate to <a href="http://127.0.0.1:8000/projects">http://127.0.0.1:8000/projects</a>
+</li>
+</ol>
+<h3>
+  <a name="step-2-make-sure-guzzle-package-is-installed" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#step-2-make-sure-guzzle-package-is-installed" class="anchor">
+  </a>
+  <strong>Step 2: Make sure Guzzle package is installed</strong>
+</h3>
+
+<p>By default, Laravel automatically includes this Guzzle as a dependency when you install Laravel, check your composer.json, if it is one of the required dependency, if you did not see it, or you want to update</p>
+
+<blockquote>
+<p>composer require guzzlehttp/guzzle</p>
+</blockquote>
+<h3>
+  <a name="step-3-create-routes" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#step-3-create-routes" class="anchor">
+  </a>
+  <strong>Step 3: Create routes</strong>
+</h3>
+
+<p>Modify the <strong>routes/web.php</strong> file to this<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>&lt;?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::prefix('projects')-&gt;group(function () {
+    Route::get('apiwithoutkey', [ProjectController::class, 'apiWithoutKey'])-&gt;name('apiWithoutKey');
+    Route::get('apiwithkey', [ProjectController::class, 'apiWithKey'])-&gt;name('apiWithKey');
+});
+
+
+Route::resource('projects', ProjectController::class);
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="highlight-action highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path fill="#fff" d="M0 180V56c0-13.3 10.7-24 24-24h124c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H64v84c0 6.6-5.4 12-12 12H12c-6.6 0-12-5.4-12-12zM288 44v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12V56c0-13.3-10.7-24-24-24H300c-6.6 0-12 5.4-12 12zm148 276h-40c-6.6 0-12 5.4-12 12v84h-84c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24V332c0-6.6-5.4-12-12-12zM160 468v-40c0-6.6-5.4-12-12-12H64v-84c0-6.6-5.4-12-12-12H12c-6.6 0-12 5.4-12 12v124c0 13.3 10.7 24 24 24h124c6.6 0 12-5.4 12-12z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="highlight-action highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path fill="#fff" d="M436 192H312c-13.3 0-24-10.7-24-24V44c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v84h84c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-276-24V44c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v84H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24zm0 300V344c0-13.3-10.7-24-24-24H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-84h84c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12H312c-13.3 0-24 10.7-24 24v124c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>We added two get routes, one for an API without key (unauthorized) and another with key (authorized).</p>
+<h3>
+  <a name="step-4-create-controller-methods" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#step-4-create-controller-methods" class="anchor">
+  </a>
+  <strong>Step 4: Create Controller methods</strong>
+</h3>
+
+<p>In our routes, we indicate that we have two more routes, so we need to write the methods,  go to <strong>app/Http/Controller/ProjectController.php</strong>, and add the following methods <br>
+First, call the Guzzle class before the controller class, directly under the namespace</p>
+
+<blockquote>
+<p>use GuzzleHttp\Client;<br>
+</p>
+</blockquote>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+    public function apiWithoutKey()
+    {
+        $client = new Client(); //GuzzleHttp\Client
+        $url = "https://api.github.com/users/kingsconsult/repos";
+
+
+        $response = $client-&gt;request('GET', $url, [
+            'verify'  =&gt; false,
+        ]);
+
+        $responseBody = json_decode($response-&gt;getBody());
+
+        return view('projects.apiwithoutkey', compact('responseBody'));
+    }
+
+    public function apiWithKey()
+    {
+        $client = new Client();
+        $url = "https://dev.to/api/articles/me/published";
+
+        $params = [
+            //If you have any Params Pass here
+        ];
+
+        $headers = [
+            'api-key' =&gt; 'k3Hy5qr73QhXrmHLXhpEh6CQ'
+        ];
+
+        $response = $client-&gt;request('GET', $url, [
+            // 'json' =&gt; $params,
+            'headers' =&gt; $headers,
+            'verify'  =&gt; false,
+        ]);
+
+        $responseBody = json_decode($response-&gt;getBody());
+
+        return view('projects.apiwithkey', compact('responseBody'));
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="highlight-action highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path fill="#fff" d="M0 180V56c0-13.3 10.7-24 24-24h124c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H64v84c0 6.6-5.4 12-12 12H12c-6.6 0-12-5.4-12-12zM288 44v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12V56c0-13.3-10.7-24-24-24H300c-6.6 0-12 5.4-12 12zm148 276h-40c-6.6 0-12 5.4-12 12v84h-84c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24V332c0-6.6-5.4-12-12-12zM160 468v-40c0-6.6-5.4-12-12-12H64v-84c0-6.6-5.4-12-12-12H12c-6.6 0-12 5.4-12 12v124c0 13.3 10.7 24 24 24h124c6.6 0 12-5.4 12-12z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="highlight-action highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path fill="#fff" d="M436 192H312c-13.3 0-24-10.7-24-24V44c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v84h84c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-276-24V44c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v84H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24zm0 300V344c0-13.3-10.7-24-24-24H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-84h84c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12H312c-13.3 0-24 10.7-24 24v124c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p><strong>Explanation</strong></p>
+
+<ol>
+<li>I instantiate the client class from guzzle.</li>
+<li>I assign the API URL to a variable (I used GitHub API for my public repositories, this is a public API that fetches one's public GitHub repositories), this API does not require a token for authorization.</li>
+<li>I use the request method of the client, it accepts 3 parameters ($method, $url, $options), the $options is where we pass our token if the API requires one, also I passed another option, verify, to be false.</li>
+<li>Finally, I convert my response to a json format, so I can pass it to the view.</li>
+</ol>
+
+<p>The second method is for an API that requires authorization, I used dev.to API, this API fetches all my published articles and also all the stats for each article, I passed the <strong>api key</strong> to the options, I assigned it to a variable call headers. </p>
+<h3>
+  <a name="step-5-create-the-views" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#step-5-create-the-views" class="anchor">
+  </a>
+  <strong>Step 5: Create the views</strong>
+</h3>
+
+<p>I created separate views for the two API</p>
+
+<p><strong>resources/views/projects/apiwithoutkey.blade.php</strong><br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>@extends('layouts.app')
+
+@section('content')
+
+&lt;style&gt;
+
+
+&lt;/style&gt;
+&lt;div class="row mb-3"&gt;
+    &lt;div class="col-lg-12 margin-tb"&gt;
+        &lt;div class="text-center"&gt;
+            &lt;h2&gt;Github Public Repository&lt;/h2&gt;
+            &lt;a class="btn btn-primary" href="{{ route('projects.index') }}" title="Go back"&gt; &lt;i class="fas fa-backward fa-2x"&gt;&lt;/i&gt; &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;div class="container-fluid mb-5" style="margin-bottom: 150px !important"&gt;
+    &lt;div class="row mr-4"&gt;
+        @foreach ($responseBody as $response)
+
+        &lt;div class="col-xl-3 col-md-6 mb-4 hvr-grow "&gt;
+            &lt;a href="{{ $response-&gt;html_url }}" class="text-muted"&gt;
+                &lt;div class="card shadow  py-0 rounded-lg "&gt;
+                    &lt;div class="card-body py-2 px-2"&gt;
+                        &lt;div class="row no-gutters align-items-center"&gt;
+                            &lt;div class="col mr-2"&gt;
+                                &lt;div class=" font-weight-bold mb-4 mt- 2 text-primary text-center text-uppercase mb-1"&gt;
+                                    {{ $response-&gt;name }}
+                                &lt;/div&gt;
+                                &lt;div class="h6 mb-0 text-gray-800 text-center"&gt;{{ $response-&gt;description }}
+                                    @if ($response-&gt;description == null)
+                                    {{ $response-&gt;name }}
+                                    @endif
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+
+                        &lt;div style="position: absolute; bottom: 0" class="mb-2"&gt; &lt;strong&gt;
+                                &lt;hi&gt;Language : {{ $response-&gt;language }}
+                            &lt;/strong&gt;&lt;/hi&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+        @endforeach
+    &lt;/div&gt;
+&lt;/div&gt;
+
+@endsection
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="highlight-action highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path fill="#fff" d="M0 180V56c0-13.3 10.7-24 24-24h124c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H64v84c0 6.6-5.4 12-12 12H12c-6.6 0-12-5.4-12-12zM288 44v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12V56c0-13.3-10.7-24-24-24H300c-6.6 0-12 5.4-12 12zm148 276h-40c-6.6 0-12 5.4-12 12v84h-84c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24V332c0-6.6-5.4-12-12-12zM160 468v-40c0-6.6-5.4-12-12-12H64v-84c0-6.6-5.4-12-12-12H12c-6.6 0-12 5.4-12 12v124c0 13.3 10.7 24 24 24h124c6.6 0 12-5.4 12-12z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="highlight-action highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path fill="#fff" d="M436 192H312c-13.3 0-24-10.7-24-24V44c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v84h84c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-276-24V44c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v84H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24zm0 300V344c0-13.3-10.7-24-24-24H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-84h84c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12H312c-13.3 0-24 10.7-24 24v124c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p><strong>resources/views/projects/apiwithkey.blade.php</strong><br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>@extends('layouts.app')
+
+@section('content')
+
+&lt;style&gt;
+
+
+&lt;/style&gt;
+&lt;div class="row mb-3"&gt;
+    &lt;div class="col-lg-12 margin-tb"&gt;
+        &lt;div class="text-center"&gt;
+            &lt;h2&gt;Dev.to Article stats&lt;/h2&gt;
+            &lt;a class="btn btn-primary" href="{{ route('projects.index') }}" title="Go back"&gt; &lt;i class="fas fa-backward fa-2x"&gt;&lt;/i&gt; &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;div class="container-fluid mb-5" style="margin-bottom: 150px !important"&gt;
+    &lt;div class="row mr-4"&gt;
+        @foreach ($responseBody as $response)
+
+        &lt;div class="col-xl-3 col-md-6 mb-4 hvr-grow "&gt;
+            &lt;div class="card shadow  py-0 rounded-lg "&gt;
+                &lt;div class="card-body py-2"&gt;
+                    &lt;div class="row no-gutters align-items-center"&gt;
+                        &lt;div class="col mr-2"&gt;
+                            &lt;a href="{{ $response-&gt;url }}" class="text-muted"&gt;
+                                &lt;div class=" font-weight-bold mb-2 mt-2 text-primary text-center text-uppercase mb-1"&gt;
+                                    {{ Str::limit($response-&gt;title, 45) }}
+
+                                &lt;/div&gt;
+                            &lt;/a&gt;
+                            &lt;div class="h6 mb-0 text-gray-800 text-center"&gt;
+                                {{ Str::limit($response-&gt;description, 100) }}
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div style="position: absolute; bottom: 0" class="mb-2"&gt;
+                        &lt;hi&gt;Page Views: &lt;strong&gt;{{ number_format($response-&gt;page_views_count) }}&lt;/strong&gt;&lt;/hi&gt;
+                        &lt;hi class="ml-3"&gt; Reactions: &lt;strong&gt;{{ $response-&gt;positive_reactions_count }} &lt;/strong&gt;&lt;/hi&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        @endforeach
+    &lt;/div&gt;
+&lt;/div&gt;
+
+@endsection
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="highlight-action highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path fill="#fff" d="M0 180V56c0-13.3 10.7-24 24-24h124c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H64v84c0 6.6-5.4 12-12 12H12c-6.6 0-12-5.4-12-12zM288 44v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12V56c0-13.3-10.7-24-24-24H300c-6.6 0-12 5.4-12 12zm148 276h-40c-6.6 0-12 5.4-12 12v84h-84c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24V332c0-6.6-5.4-12-12-12zM160 468v-40c0-6.6-5.4-12-12-12H64v-84c0-6.6-5.4-12-12-12H12c-6.6 0-12 5.4-12 12v124c0 13.3 10.7 24 24 24h124c6.6 0 12-5.4 12-12z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="highlight-action highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path fill="#fff" d="M436 192H312c-13.3 0-24-10.7-24-24V44c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v84h84c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-276-24V44c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v84H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24zm0 300V344c0-13.3-10.7-24-24-24H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-84h84c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12H312c-13.3 0-24 10.7-24 24v124c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p><strong>Testing</strong><br>
+Go to the index page of projects <strong><a href="http://127.0.0.1:8000/projects">http://127.0.0.1:8000/projects</a></strong><br>
+<a href="./consume-api_files/2_at7edn.png" class="article-body-image-wrapper"><img src="./consume-api_files/2_at7edn.png" alt="http://127.0.0.1:8000/projects" loading="lazy"></a></p>
+
+<p><strong><a href="http://127.0.0.1:8000/projects/apiwithkey">http://127.0.0.1:8000/projects/apiwithkey</a></strong><br>
+<a href="./consume-api_files/4_yvdsfo.png" class="article-body-image-wrapper"><img src="./consume-api_files/4_yvdsfo.png" alt="API with key" loading="lazy"></a></p>
+
+<p><strong><a href="http://127.0.0.1:8000/projects/apiwithoutkey">http://127.0.0.1:8000/projects/apiwithoutkey</a></strong><br>
+<a href="./consume-api_files/1_mkit1h.png" class="article-body-image-wrapper"><img src="./consume-api_files/1_mkit1h.png" alt="API without key" loading="lazy"></a></p>
+
+<p>You can get the complete code from the <a href="https://github.com/Kingsconsult/laravel_8_consume_api">repo</a>.<br>
+Follow me for more of my articles, you can leave comments, suggestions, and reactions</p>
+
+<p><a href="https://dev.to/kingsconsult">click the link to view my profile and follow me</a></p>
+
+<p>Visit my other posts <br>
+</p>
+<div class="ltag__link">
+  <a href="https://dev.to/kingsconsult" class="ltag__link__link">
+    <div class="ltag__link__pic">
+      <img src="./consume-api_files/824cfe72-bea5-409c-ba5d-88553171edd3(1).png" alt="kingsconsult image" loading="lazy">
+    </div>
+  </a>
+  <a href="https://dev.to/kingsconsult/how-to-create-a-secure-crud-restful-api-in-laravel-8-and-7-using-laravel-passport-31fh" class="ltag__link__link">
+    <div class="ltag__link__content">
+      <h2>How to Create a Secure CRUD RESTful API in Laravel 8 and 7  Using Laravel Passport</h2>
+      <h3>Kingsconsult ・ Oct 15 ・ 10 min read</h3>
+      <div class="ltag__link__taglist">
+        <span class="ltag__link__tag">#php</span>
+        <span class="ltag__link__tag">#laravel</span>
+        <span class="ltag__link__tag">#webdev</span>
+        <span class="ltag__link__tag">#beginners</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+
+<div class="ltag__link">
+  <a href="https://dev.to/kingsconsult" class="ltag__link__link">
+    <div class="ltag__link__pic">
+      <img src="./consume-api_files/824cfe72-bea5-409c-ba5d-88553171edd3(1).png" alt="kingsconsult image" loading="lazy">
+    </div>
+  </a>
+  <a href="https://dev.to/kingsconsult/how-to-get-the-entire-country-list-in-laravel-8-downwards-ahb" class="ltag__link__link">
+    <div class="ltag__link__content">
+      <h2>Country list in laravel 8 and Laravel 7</h2>
+      <h3>Kingsconsult ・ Sep 26 ・ 2 min read</h3>
+      <div class="ltag__link__taglist">
+        <span class="ltag__link__tag">#countrylist</span>
+        <span class="ltag__link__tag">#laravel</span>
+        <span class="ltag__link__tag">#php</span>
+        <span class="ltag__link__tag">#webdev</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+
+
+          </div>
+
+            
+  <nav class="series-switcher crayons-card crayons-card--secondary">
+    <header class="crayons-card__header">
+      <h2 class="crayons-subtitle-2">
+        <a href="https://dev.to/kingsconsult/series/10342">Creating and Consuming API (2 Part Series)</a>
+      </h2>
+    </header>
+
+    <div class="series-switcher__list">
+
+          <a href="https://dev.to/kingsconsult/how-to-create-a-secure-crud-restful-api-in-laravel-8-and-7-using-laravel-passport-31fh" class="crayons-link crayons-link--contentful series-switcher__link  " data-preload-image="" title="Published Oct 15 &#39;20">
+            <span class="series-switcher__num">1</span>
+            <span class="series-switcher__title">How to Create a Secure CRUD RESTful API in Laravel 8 and 7  Using Laravel Passport</span>
+          </a>
+
+          <a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii" class="crayons-link crayons-link--contentful series-switcher__link series-switcher__link--active " data-preload-image="" title="Published Oct 28 &#39;20">
+            <span class="series-switcher__num">2</span>
+            <span class="series-switcher__title">How to consume RESTful APIs in Laravel 8 and Laravel 7</span>
+          </a>
+    </div>
+  </nav>
+
+        </div>
+          <section id="comments" data-follow-button-container="true" data-updated-at="2023-02-05 07:49:39 UTC" class="text-padding mb-4 border-t-1 border-0 border-solid border-base-10">
+      <header class="relative flex justify-between items-center mb-6">
+        <div class="flex items-center">
+          <h2 class="crayons-subtitle-1">
+            Top comments <span class="js-comments-count" data-comments-count="6">(6)</span>
+          </h2>
+          <button class="c-btn c-btn--ghost crayons-btn--icon-left" id="toggle-comments-sort-dropdown" aria-controls="comments-sort-dropdown-container" aria-expanded="false" aria-label="Sort comments" aria-haspopup="true" data-initialized="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" class="mt-2"><title>Crown</title>
+    <path d="M12 18l-4-3.771 1-.943 3 2.829 3-2.829 1 .943L12 18zm0-10.115l-3 2.829-1-.943L12 6l4 3.771-1 .942-3-2.828z"></path>
+</svg>
+
+          </button>
+        </div>
+
+        <nav class="crayons-dropdown p-4" id="comments-sort-dropdown-container" aria-labelledby="comments-sort-title">
+            <h3 id="comments-sort-title" class="mb-3">Sort discussion: </h3>
+            <ul class="comments-sort-dropdown__list">
+              <li class="comment-sort-option">
+  <a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii?comments_sort=top#toggle-comments-sort-dropdown" class="comment-sort-option__header pl-7 pb-0 crayons-link--block block" aria-describedby="top-description-text" aria-current="page">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="ail9tnod6q086pmgunctemsgpg3neynw" aria-hidden="true" class="crayons-icon"><title id="ail9tnod6q086pmgunctemsgpg3neynw">Selected Sort Option</title>
+    <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95z"></path>
+</svg>
+
+       Top
+    </div>
+     <div id="top-description-text" class="crayons-field__description">
+      Most upvoted and relevant comments will be first
+    </div>
+  </a>
+</li>
+
+              <li class="comment-sort-option">
+  <a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii?comments_sort=latest#toggle-comments-sort-dropdown" class="comment-sort-option__header pl-7 pb-0 crayons-link--block block" aria-describedby="latest-description-text" aria-current="">
+    <div>
+      
+       Latest
+    </div>
+     <div id="latest-description-text" class="crayons-field__description">
+      Most recent comments will be first
+    </div>
+  </a>
+</li>
+
+              <li class="comment-sort-option">
+  <a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii?comments_sort=oldest#toggle-comments-sort-dropdown" class="comment-sort-option__header pl-7 pb-0 crayons-link--block block" aria-describedby="oldest-description-text" aria-current="">
+    <div>
+      
+       Oldest
+    </div>
+     <div id="oldest-description-text" class="crayons-field__description">
+      The oldest comments will be first
+    </div>
+  </a>
+</li>
+
+            </ul>
+        </nav>
+
+        <div id="comment-subscription" class="print-hidden"><div class="static"><div role="group" aria-label="Comment subscription options" class="crayons-btn-group"><button class="crayons-btn crayons-btn--outlined" type="button" data-tracking-name="comment_subscription_toggle">Subscribe</button></div></div>
+          
+        </div>
+      </header>
+
+      <div id="comments-container" data-testid="comments-container" data-commentable-id="499786" data-commentable-type="Article" data-has-recent-comment-activity="false">
+
+          <div id="response-templates-data" class="hidden"></div>
+<script src="./consume-api_files/runtime_validateFileInputs-52175550e26f638fae51.js.download" defer="defer"></script>
+<script src="./consume-api_files/0-6bf46cb11ef27e3ebc1f.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/1-ab6bf4102bbedc73ff4d.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/validateFileInputs-837ae54febb9952f9898.chunk.js.download" defer="defer"></script>
+
+
+<form class="comment-form print-hidden" id="new_comment" action="https://dev.to/comments" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓" autocomplete="off">
+
+  <input type="hidden" name="authenticity_token" value="NOTHING" id="new_comment_authenticity_token">
+
+    <input value="499786" autocomplete="off" type="hidden" name="comment[commentable_id]" id="comment_commentable_id">
+    <input value="Article" autocomplete="off" type="hidden" name="comment[commentable_type]" id="comment_commentable_type">
+    
+
+  <span class="crayons-avatar m:crayons-avatar--l mr-2 shrink-0">
+    <img src="./consume-api_files/devlogo-pwa-512.png" width="32" height="32" alt="pic" class="crayons-avatar__image overflow-hidden" id="comment-primary-user-profile--avatar" loading="lazy">
+  </span>
+  <div class="comment-form__inner">
+    <div class="comment-form__field" data-tracking-name="comment_form_textfield">
+      <textarea placeholder="Add to the discussion" onfocus="handleFocus(event)" onkeyup="handleKeyUp(event)" onkeydown="handleKeyDown(event)" oninput="handleChange(event)" id="text-area" required="required" class="crayons-textfield comment-textarea crayons-textfield--ghost" aria-label="Add a comment to the discussion" name="comment[body_markdown]"></textarea>
+
+    </div>
+
+    <div class="response-templates-container crayons-card crayons-card--secondary p-4 mb-4 comment-form__templates fs-base hidden">
+      <header class="mb-3">
+        <button type="button" class="crayons-btn personal-template-button active" data-target-type="personal" data-form-id="new_comment">Personal</button>
+        <button type="button" class="crayons-btn moderator-template-button hidden" data-target-type="moderator" data-form-id="new_comment">Trusted User</button>
+      </header>
+
+      <img class="loading-img hidden" src="./consume-api_files/loading-ellipsis-b714cf681fd66c853ff6f03dd161b77aa3c80e03cdc06f478b695f42770421e9.svg" alt="loading" loading="lazy">
+
+      <div class="personal-responses-container">
+      </div>
+      <div class="moderator-responses-container hidden">
+      </div>
+
+      <a target="_blank" rel="noopener nofollow" href="https://dev.to/settings/response-templates">
+        Create template
+      </a>
+      <p>Templates let you quickly answer FAQs or store snippets for re-use.</p>
+    </div>
+
+    <div class="comment-form__preview text-styles text-styles--secondary" id="preview-div"></div>
+
+    <div class="comment-form__buttons mb-4">
+      <button type="submit" class="crayons-btn mr-2 js-btn-enable" onclick="validateField(event)" data-tracking-name="comment_submit_button" disabled="">Submit</button>
+      <button type="button" class="preview-toggle crayons-btn crayons-btn--secondary comment-action-preview js-btn-enable mr-2" data-tracking-name="comment_preview_button" disabled="">Preview</button>
+      <a href="https://dev.to/404.html" class="dismiss-edit-comment crayons-btn crayons-btn--ghost js-btn-dismiss hidden">Dismiss</a>
+    </div>
+  </div>
+
+  <div class="code-of-conduct" id="toggle-code-of-conduct-checkbox"></div>
+</form>
+
+
+        <div class="comments" id="comment-trees-container">
+                <details class="comment-wrapper js-comment-wrapper comment-wrapper--deep-0
+                    root
+                    " open="">
+      <summary aria-label="Toggle this comment (and replies)" data-tracking-name="expand_comment_toggle">
+        <span class="m:mx-1 inline-block align-middle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="afyg2d7povhldka302ghn9tfos39ra4k" class="crayons-icon expanded"><title id="afyg2d7povhldka302ghn9tfos39ra4k">Collapse</title>
+    <path d="M12 10.677L8 6.935 9 6l3 2.807L15 6l1 .935-4 3.742zm0 4.517L9 18l-1-.935 4-3.742 4 3.742-1 .934-3-2.805z"></path>
+</svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="am1wtnt9j35a4wso5h4j6fbhgjodt37u" class="crayons-icon collapsed"><title id="am1wtnt9j35a4wso5h4j6fbhgjodt37u">Expand</title>
+    <path d="M12 18l-4-3.771 1-.943 3 2.829 3-2.829 1 .943L12 18zm0-10.115l-3 2.829-1-.943L12 6l4 3.771-1 .942-3-2.828z"></path>
+</svg>
+
+        </span>
+        <span class="js-collapse-comment-content inline-block align-middle"></span>
+      </summary>
+  <div id="comment-node-738569" class="
+      comment single-comment-node
+      
+      root
+      comment--deep-0
+      
+    " data-comment-id="738569" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1g0ed" data-comment-author-id="660608" data-content-user-id="660608">
+    <a name="comment-1g0ed" style="position: absolute; top: -8px;">&nbsp;</a>
+    
+<div class="comment__inner">
+    <a href="https://dev.to/tassadar45" class="shrink-0 crayons-avatar m:crayons-avatar--l mt-4 m:mt-3">
+    <img class="crayons-avatar__image" width="32" height="32" src="./consume-api_files/974971b3-b23d-435a-9b6a-906bd269709f.png" alt="tassadar45 profile image" loading="lazy">
+  </a>
+
+
+  <div class="inner-comment comment__details">
+    <div class="comment__content crayons-card">
+        
+
+
+        <div class="comment__header">
+  <a href="https://dev.to/tassadar45" class="crayons-link crayons-link--secondary flex items-center fw-medium m:hidden">
+    <span class="js-comment-username">Archivillano Porkazoid</span>
+  </a>
+  <div class="profile-preview-card relative mb-4 s:mb-0 fw-medium hidden m:block">
+    <button id="comment-profile-preview-trigger-738569" aria-controls="comment-profile-preview-content-738569" class="profile-preview-card__trigger p-1 -my-1 -ml-1 crayons-btn crayons-btn--ghost" aria-label="Archivillano Porkazoid profile details" aria-expanded="false" aria-haspopup="true" data-initialized="true">
+      Archivillano Porkazoid
+    </button>
+    <div id="comment-profile-preview-content-738569" class="profile-preview-card__content p-4 pt-0 branded-7 crayons-dropdown reverse" style="--card-color: #000000; border-top-color: var(--card-color);" data-testid="profile-preview-card" data-repositioning-dropdown="true">
+    <div class="gap-4 grid">
+        <div class="-mt-4">
+  <a href="https://dev.to/tassadar45" class="flex">
+    <span class="crayons-avatar crayons-avatar--xl  mr-2 shrink-0">
+      <img src="./consume-api_files/974971b3-b23d-435a-9b6a-906bd269709f(1).png" class="crayons-avatar__image" alt="" loading="lazy">
+    </span>
+    <span class="crayons-link crayons-subtitle-2 mt-5">Archivillano Porkazoid</span>
+  </a>
+</div>
+
+<div class="print-hidden">
+  <button name="button" type="button" data-info="{&quot;className&quot;:&quot;User&quot;,&quot;style&quot;:&quot;&quot;,&quot;id&quot;:660608,&quot;name&quot;:&quot;Archivillano Porkazoid&quot;}" class="crayons-btn follow-action-button whitespace-nowrap w-100 follow-user" aria-label="Follow user: Archivillano Porkazoid" aria-pressed="false" data-fetched="fetched">Follow</button>
+</div>
+
+  <div class="user-metadata-details">
+    <ul class="user-metadata-details-inner">
+          <li>
+            <div class="key">
+              Work
+            </div>
+            <div class="value">
+              Student at TECNM
+            </div>
+          </li>
+      <li>
+        <div class="key">
+          Joined
+        </div>
+        <div class="value">
+          <time datetime="2021-07-02T23:00:13Z" class="date" title="Saturday, July 3, 2021 at 6:00:13 AM">Jul 3, 2021</time>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+    </div>
+</div>
+
+  </div>
+
+  <span class="color-base-30 px-2 m:pl-0" role="presentation">•</span>
+
+<a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1g0ed" class="comment-date crayons-link crayons-link--secondary fs-s">
+  <time datetime="2021-07-02T23:04:09Z" class="date-short-year" title="Saturday, July 3, 2021 at 6:04:09 AM">Jul 3 '21</time>
+
+</a>
+
+
+  <div class="comment__dropdown" data-tracking-name="comment_dropdown">
+    <button id="comment-dropdown-trigger-738569" aria-controls="comment-dropdown-738569" aria-expanded="false" class="dropbtn comment__dropdown-trigger crayons-btn crayons-btn--s crayons-btn--ghost crayons-btn--icon " aria-label="Toggle dropdown menu" aria-haspopup="true" data-initialized="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="a7px4i883l0ryodbohdd7l7nd3qm4the" class="crayons-icon pointer-events-none"><title id="a7px4i883l0ryodbohdd7l7nd3qm4the">Dropdown menu</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5.25 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm3.75 1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+</svg>
+
+    </button>
+    <div id="comment-dropdown-738569" class="crayons-dropdown right-1 s:right-0 s:left-auto fs-base dropdown">
+      <ul class="m-0">
+        <li><a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1g0ed" class="crayons-link crayons-link--block permalink-copybtn" aria-label="Copy link to Archivillano Porkazoid&#39;s comment" data-no-instant="">Copy link</a></li>
+        <li class="comment-actions hidden" data-user-id="660608" data-action="settings-button" data-path="https://dev.to/tassadar45/comment/1g0ed/settings" aria-label="Go to Archivillano Porkazoid&#39;s comment settings"></li>
+        <li class="comment-actions hidden" data-action="hide-button" data-commentable-user-id="207008" data-user-id="660608">
+            <button class="flex justify-between crayons-link crayons-link--block w-100 bg-transparent border-0 hide-comment" data-hide-type="hide" data-comment-id="738569" data-comment-url="https://dev.to/tassadar45/comment/1g0ed" aria-label="Hide Archivillano Porkazoid&#39;s comment">
+              Hide
+            </button>
+        </li>
+        <li class="mod-actions hidden mod-actions-comment-button" data-path="https://dev.to/tassadar45/comment/1g0ed/mod" aria-label="Moderate Archivillano Porkazoid&#39;s comment"></li>
+        <li class="report-abuse-link-wrapper" data-path="/report-abuse?url=https://dev.to/tassadar45/comment/1g0ed" aria-label="Report Archivillano Porkazoid&#39;s comment as abusive or violating our code of conduct and/or terms and conditions"><a href="https://dev.to/report-abuse?url=https://dev.to/tassadar45/comment/1g0ed" class="crayons-link crayons-link--block">Report abuse</a></li>
+        <li class="current-user-actions"></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+        <div class="
+            comment__body
+            text-styles
+            text-styles--secondary
+            body
+            
+            
+          ">
+          <p>Hi, how would be the best way in laravel, to make a form that sends data to a crud restapi with json through post, and put for the create and update functions?<br>
+I mean there is a lot of tutorials on how to consume restful services using GET to make a query and making tables, but there's nothing on using POST, PUT and DELETE to create, update and delete.</p>
+
+
+        </div>
+
+    </div>
+
+    <footer class="comment__footer print-hidden">
+  <button class="crayons-tooltip__activator crayons-btn crayons-btn--ghost crayons-btn--icon-left crayons-btn--s mr-1 reaction-like inline-flex reaction-button" id="button-for-comment-738569" data-comment-id="738569" aria-label="like" data-tracking-name="comment_heart_button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="ak9izm8be5lu8i7rntr5ghf6137kk3gm" class="crayons-icon reaction-icon not-reacted"><title id="ak9izm8be5lu8i7rntr5ghf6137kk3gm">Like comment: </title><path d="M18.884 12.595l.01.011L12 19.5l-6.894-6.894.01-.01A4.875 4.875 0 0112 5.73a4.875 4.875 0 016.884 6.865zM6.431 7.037a3.375 3.375 0 000 4.773L12 17.38l5.569-5.569a3.375 3.375 0 10-4.773-4.773L9.613 10.22l-1.06-1.062 2.371-2.372a3.375 3.375 0 00-4.492.25v.001z"></path></svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="aota96jvjy5o3audstz908o7n4s3kekz" class="crayons-icon crayons-icon reaction-icon--like reaction-icon reacted"><title id="aota96jvjy5o3audstz908o7n4s3kekz">Like comment: </title>
+    <path d="M5.116 12.595a4.875 4.875 0 015.56-7.68h-.002L7.493 8.098l1.06 1.061 3.181-3.182a4.875 4.875 0 016.895 6.894L12 19.5l-6.894-6.894.01-.01z"></path>
+</svg>
+
+    <span class="reactions-count">1</span><span class="reactions-label hidden m:inline-block">&nbsp;like</span>
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Like
+    </span>
+  </button>
+
+      <a class="actions crayons-btn crayons-btn--ghost crayons-btn--s crayons-btn--icon-left toggle-reply-form mr-1 inline-flex" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/new/1g0ed" data-comment-id="738569" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1g0ed" data-tracking-name="comment_reply_button" data-testid="reply-button-738569" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="ajeewy8fdi2b6yahxbk6w1wlegk1m0ts" class="crayons-icon reaction-icon not-reacted"><title id="ajeewy8fdi2b6yahxbk6w1wlegk1m0ts">Comment button</title><path d="M10.5 5h3a6 6 0 110 12v2.625c-3.75-1.5-9-3.75-9-8.625a6 6 0 016-6zM12 15.5h1.5a4.501 4.501 0 001.722-8.657A4.5 4.5 0 0013.5 6.5h-3A4.5 4.5 0 006 11c0 2.707 1.846 4.475 6 6.36V15.5z"></path></svg>
+
+        <span class="hidden m:inline-block">Reply</span>
+      </a>
+
+</footer>
+
+  </div>
+</div>
+    <details class="comment-wrapper js-comment-wrapper comment-wrapper--deep-1
+                    child
+                    " open="">
+      <summary aria-label="Toggle this comment (and replies)" data-tracking-name="expand_comment_toggle">
+        <span class="mx-0 inline-block align-middle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="a1w2t8f0reeu902fh34c12x3p2uho5lr" class="crayons-icon expanded"><title id="a1w2t8f0reeu902fh34c12x3p2uho5lr">Collapse</title>
+    <path d="M12 10.677L8 6.935 9 6l3 2.807L15 6l1 .935-4 3.742zm0 4.517L9 18l-1-.935 4-3.742 4 3.742-1 .934-3-2.805z"></path>
+</svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="aqos8p3cuer2lve21lozlsvh05jydqlz" class="crayons-icon collapsed"><title id="aqos8p3cuer2lve21lozlsvh05jydqlz">Expand</title>
+    <path d="M12 18l-4-3.771 1-.943 3 2.829 3-2.829 1 .943L12 18zm0-10.115l-3 2.829-1-.943L12 6l4 3.771-1 .942-3-2.828z"></path>
+</svg>
+
+        </span>
+        <span class="js-collapse-comment-content inline-block align-middle"></span>
+      </summary>
+  <div id="comment-node-931565" class="
+      comment single-comment-node
+      
+      child
+      comment--deep-1
+      
+    " data-comment-id="931565" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/2101b" data-comment-author-id="117091" data-content-user-id="117091">
+    <a name="comment-2101b" style="position: absolute; top: -8px;">&nbsp;</a>
+    
+<div class="comment__inner">
+    <a href="https://dev.to/msnmongare" class="shrink-0 crayons-avatar mt-4">
+    <img class="crayons-avatar__image" width="32" height="32" src="./consume-api_files/c86e71db-df3e-4064-8cfc-64f7044faed1.jpg" alt="msnmongare profile image" loading="lazy">
+  </a>
+
+
+  <div class="inner-comment comment__details">
+    <div class="comment__content crayons-card">
+        
+
+
+        <div class="comment__header">
+  <a href="https://dev.to/msnmongare" class="crayons-link crayons-link--secondary flex items-center fw-medium m:hidden">
+    <span class="js-comment-username">Sospeter Mongare</span>
+  </a>
+  <div class="profile-preview-card relative mb-4 s:mb-0 fw-medium hidden m:block">
+    <button id="comment-profile-preview-trigger-931565" aria-controls="comment-profile-preview-content-931565" class="profile-preview-card__trigger p-1 -my-1 -ml-1 crayons-btn crayons-btn--ghost" aria-label="Sospeter Mongare profile details" aria-expanded="false" aria-haspopup="true" data-initialized="true">
+      Sospeter Mongare
+    </button>
+    <div id="comment-profile-preview-content-931565" class="profile-preview-card__content p-4 pt-0 branded-7 crayons-dropdown reverse" style="--card-color: #002a9e; border-top-color: var(--card-color);" data-testid="profile-preview-card" data-repositioning-dropdown="true">
+    <div class="gap-4 grid">
+        <div class="-mt-4">
+  <a href="https://dev.to/msnmongare" class="flex">
+    <span class="crayons-avatar crayons-avatar--xl  mr-2 shrink-0">
+      <img src="./consume-api_files/c86e71db-df3e-4064-8cfc-64f7044faed1(1).jpg" class="crayons-avatar__image" alt="" loading="lazy">
+    </span>
+    <span class="crayons-link crayons-subtitle-2 mt-5">Sospeter Mongare</span>
+  </a>
+</div>
+
+<div class="print-hidden">
+  <button name="button" type="button" data-info="{&quot;className&quot;:&quot;User&quot;,&quot;style&quot;:&quot;&quot;,&quot;id&quot;:117091,&quot;name&quot;:&quot;Sospeter Mongare&quot;}" class="crayons-btn follow-action-button whitespace-nowrap w-100 follow-user" aria-label="Follow user: Sospeter Mongare" aria-pressed="false" data-fetched="fetched">Follow</button>
+</div>
+  <div class="color-base-70">
+    Software Engineer passionate about developing for the web
+  </div>
+
+  <div class="user-metadata-details">
+    <ul class="user-metadata-details-inner">
+        <li>
+          <div class="key">
+            Location
+          </div>
+          <div class="value">
+            Kenya
+          </div>
+        </li>
+          <li>
+            <div class="key">
+              Work
+            </div>
+            <div class="value">
+              Software Engineer | Technical writer | Open-Source Lover
+            </div>
+          </li>
+      <li>
+        <div class="key">
+          Joined
+        </div>
+        <div class="value">
+          <time datetime="2018-11-22T21:14:35Z" class="date" title="Friday, November 23, 2018 at 4:14:35 AM">Nov 23, 2018</time>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+    </div>
+</div>
+
+  </div>
+
+  <span class="color-base-30 px-2 m:pl-0" role="presentation">•</span>
+
+<a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-2101b" class="comment-date crayons-link crayons-link--secondary fs-s">
+  <time datetime="2022-08-11T23:17:29Z" class="date-short-year" title="Friday, August 12, 2022 at 6:17:29 AM">Aug 12 '22</time>
+
+</a>
+
+
+  <div class="comment__dropdown" data-tracking-name="comment_dropdown">
+    <button id="comment-dropdown-trigger-931565" aria-controls="comment-dropdown-931565" aria-expanded="false" class="dropbtn comment__dropdown-trigger crayons-btn crayons-btn--s crayons-btn--ghost crayons-btn--icon " aria-label="Toggle dropdown menu" aria-haspopup="true" data-initialized="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="aqu1tn5wi1qd97f9zz0z2dfq691z9yyu" class="crayons-icon pointer-events-none"><title id="aqu1tn5wi1qd97f9zz0z2dfq691z9yyu">Dropdown menu</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5.25 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm3.75 1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+</svg>
+
+    </button>
+    <div id="comment-dropdown-931565" class="crayons-dropdown right-1 s:right-0 s:left-auto fs-base dropdown">
+      <ul class="m-0">
+        <li><a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-2101b" class="crayons-link crayons-link--block permalink-copybtn" aria-label="Copy link to Sospeter Mongare&#39;s comment" data-no-instant="">Copy link</a></li>
+        <li class="comment-actions hidden" data-user-id="117091" data-action="settings-button" data-path="https://dev.to/msnmongare/comment/2101b/settings" aria-label="Go to Sospeter Mongare&#39;s comment settings"></li>
+        <li class="comment-actions hidden" data-action="hide-button" data-commentable-user-id="207008" data-user-id="117091">
+            <button class="flex justify-between crayons-link crayons-link--block w-100 bg-transparent border-0 hide-comment" data-hide-type="hide" data-comment-id="931565" data-comment-url="https://dev.to/msnmongare/comment/2101b" aria-label="Hide Sospeter Mongare&#39;s comment">
+              Hide
+            </button>
+        </li>
+        <li class="mod-actions hidden mod-actions-comment-button" data-path="https://dev.to/msnmongare/comment/2101b/mod" aria-label="Moderate Sospeter Mongare&#39;s comment"></li>
+        <li class="report-abuse-link-wrapper" data-path="/report-abuse?url=https://dev.to/msnmongare/comment/2101b" aria-label="Report Sospeter Mongare&#39;s comment as abusive or violating our code of conduct and/or terms and conditions"><a href="https://dev.to/report-abuse?url=https://dev.to/msnmongare/comment/2101b" class="crayons-link crayons-link--block">Report abuse</a></li>
+        <li class="current-user-actions"></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+        <div class="
+            comment__body
+            text-styles
+            text-styles--secondary
+            body
+            
+            
+          ">
+          <p>Hi <a class="mentioned-user" href="https://dev.to/tassadar45">@tassadar45</a> , Which API gives you the access to update their API or create records. If given endpoints for creating and updating , then it is possible</p>
+
+
+        </div>
+
+    </div>
+
+    <footer class="comment__footer print-hidden">
+  <button class="crayons-tooltip__activator crayons-btn crayons-btn--ghost crayons-btn--icon-left crayons-btn--s mr-1 reaction-like inline-flex reaction-button" id="button-for-comment-931565" data-comment-id="931565" aria-label="like" data-tracking-name="comment_heart_button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="afwqlhxr0eyybfr51qqazpflq1xny80m" class="crayons-icon reaction-icon not-reacted"><title id="afwqlhxr0eyybfr51qqazpflq1xny80m">Like comment: </title><path d="M18.884 12.595l.01.011L12 19.5l-6.894-6.894.01-.01A4.875 4.875 0 0112 5.73a4.875 4.875 0 016.884 6.865zM6.431 7.037a3.375 3.375 0 000 4.773L12 17.38l5.569-5.569a3.375 3.375 0 10-4.773-4.773L9.613 10.22l-1.06-1.062 2.371-2.372a3.375 3.375 0 00-4.492.25v.001z"></path></svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="arxc5ykw8s7g2tw8t6gkquxnwigbqm2v" class="crayons-icon crayons-icon reaction-icon--like reaction-icon reacted"><title id="arxc5ykw8s7g2tw8t6gkquxnwigbqm2v">Like comment: </title>
+    <path d="M5.116 12.595a4.875 4.875 0 015.56-7.68h-.002L7.493 8.098l1.06 1.061 3.181-3.182a4.875 4.875 0 016.895 6.894L12 19.5l-6.894-6.894.01-.01z"></path>
+</svg>
+
+    <span class="reactions-count">1</span><span class="reactions-label hidden m:inline-block">&nbsp;like</span>
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Like
+    </span>
+  </button>
+
+      <a class="actions crayons-btn crayons-btn--ghost crayons-btn--s crayons-btn--icon-left toggle-reply-form mr-1 inline-flex" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/new/2101b" data-comment-id="931565" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/2101b" data-tracking-name="comment_reply_button" data-testid="reply-button-931565" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="aei2w1gfsbparnxla6yrnbvh4mtaikeq" class="crayons-icon reaction-icon not-reacted"><title id="aei2w1gfsbparnxla6yrnbvh4mtaikeq">Comment button</title><path d="M10.5 5h3a6 6 0 110 12v2.625c-3.75-1.5-9-3.75-9-8.625a6 6 0 016-6zM12 15.5h1.5a4.501 4.501 0 001.722-8.657A4.5 4.5 0 0013.5 6.5h-3A4.5 4.5 0 006 11c0 2.707 1.846 4.475 6 6.36V15.5z"></path></svg>
+
+        <span class="hidden m:inline-block">Reply</span>
+      </a>
+
+</footer>
+
+  </div>
+</div>
+
+
+  </div>
+    </details>
+
+
+  </div>
+    </details>
+
+    <details class="comment-wrapper js-comment-wrapper comment-wrapper--deep-0
+                    root
+                    " open="">
+      <summary aria-label="Toggle this comment (and replies)" data-tracking-name="expand_comment_toggle">
+        <span class="m:mx-1 inline-block align-middle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="acguuqxkpvzrzw7qfhtp521s58yb80zo" class="crayons-icon expanded"><title id="acguuqxkpvzrzw7qfhtp521s58yb80zo">Collapse</title>
+    <path d="M12 10.677L8 6.935 9 6l3 2.807L15 6l1 .935-4 3.742zm0 4.517L9 18l-1-.935 4-3.742 4 3.742-1 .934-3-2.805z"></path>
+</svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="aqlt0n1c4qrfw8v3r3saq6p8y7pj8hre" class="crayons-icon collapsed"><title id="aqlt0n1c4qrfw8v3r3saq6p8y7pj8hre">Expand</title>
+    <path d="M12 18l-4-3.771 1-.943 3 2.829 3-2.829 1 .943L12 18zm0-10.115l-3 2.829-1-.943L12 6l4 3.771-1 .942-3-2.828z"></path>
+</svg>
+
+        </span>
+        <span class="js-collapse-comment-content inline-block align-middle"></span>
+      </summary>
+  <div id="comment-node-673288" class="
+      comment single-comment-node
+      
+      root
+      comment--deep-0
+      
+    " data-comment-id="673288" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1c7pi" data-comment-author-id="497648" data-content-user-id="497648">
+    <a name="comment-1c7pi" style="position: absolute; top: -8px;">&nbsp;</a>
+    
+<div class="comment__inner">
+    <a href="https://dev.to/jskogsta" class="shrink-0 crayons-avatar m:crayons-avatar--l mt-4 m:mt-3">
+    <img class="crayons-avatar__image" width="32" height="32" src="./consume-api_files/805bde04-ad22-42be-a359-19ddafd9e460.png" alt="jskogsta profile image" loading="lazy">
+  </a>
+
+
+  <div class="inner-comment comment__details">
+    <div class="comment__content crayons-card">
+        
+
+
+        <div class="comment__header">
+  <a href="https://dev.to/jskogsta" class="crayons-link crayons-link--secondary flex items-center fw-medium m:hidden">
+    <span class="js-comment-username">Jorgen Skogstad</span>
+  </a>
+  <div class="profile-preview-card relative mb-4 s:mb-0 fw-medium hidden m:block">
+    <button id="comment-profile-preview-trigger-673288" aria-controls="comment-profile-preview-content-673288" class="profile-preview-card__trigger p-1 -my-1 -ml-1 crayons-btn crayons-btn--ghost" aria-label="Jorgen Skogstad profile details" aria-expanded="false" aria-haspopup="true" data-initialized="true">
+      Jorgen Skogstad
+    </button>
+    <div id="comment-profile-preview-content-673288" class="profile-preview-card__content p-4 pt-0 branded-7 crayons-dropdown reverse" style="--card-color: #280331; border-top-color: var(--card-color);" data-testid="profile-preview-card" data-repositioning-dropdown="true">
+    <div class="gap-4 grid">
+        <div class="-mt-4">
+  <a href="https://dev.to/jskogsta" class="flex">
+    <span class="crayons-avatar crayons-avatar--xl  mr-2 shrink-0">
+      <img src="./consume-api_files/805bde04-ad22-42be-a359-19ddafd9e460(1).png" class="crayons-avatar__image" alt="" loading="lazy">
+    </span>
+    <span class="crayons-link crayons-subtitle-2 mt-5">Jorgen Skogstad</span>
+  </a>
+</div>
+
+<div class="print-hidden">
+  <button name="button" type="button" data-info="{&quot;className&quot;:&quot;User&quot;,&quot;style&quot;:&quot;&quot;,&quot;id&quot;:497648,&quot;name&quot;:&quot;Jorgen Skogstad&quot;}" class="crayons-btn follow-action-button whitespace-nowrap w-100 follow-user" aria-label="Follow user: Jorgen Skogstad" aria-pressed="false" data-fetched="fetched">Follow</button>
+</div>
+
+  <div class="user-metadata-details">
+    <ul class="user-metadata-details-inner">
+        <li>
+          <div class="key">
+            Location
+          </div>
+          <div class="value">
+            Melbourne Australia
+          </div>
+        </li>
+          <li>
+            <div class="key">
+              Work
+            </div>
+            <div class="value">
+              MISTr at Where I go most days
+            </div>
+          </li>
+      <li>
+        <div class="key">
+          Joined
+        </div>
+        <div class="value">
+          <time datetime="2020-10-23T21:11:28Z" class="date" title="Saturday, October 24, 2020 at 4:11:28 AM">Oct 24, 2020</time>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+    </div>
+</div>
+
+  </div>
+
+  <span class="color-base-30 px-2 m:pl-0" role="presentation">•</span>
+
+<a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1c7pi" class="comment-date crayons-link crayons-link--secondary fs-s">
+  <time datetime="2021-03-07T22:44:52Z" class="date-short-year" title="Monday, March 8, 2021 at 5:44:52 AM">Mar 8 '21</time>
+
+    • Edited <span>on <time datetime="2021-03-07T22:45:30Z" class="hidden m:inline-block date-no-year" title="Monday, March 8, 2021 at 5:45:30 AM">Mar 8</time></span>
+</a>
+
+
+  <div class="comment__dropdown" data-tracking-name="comment_dropdown">
+    <button id="comment-dropdown-trigger-673288" aria-controls="comment-dropdown-673288" aria-expanded="false" class="dropbtn comment__dropdown-trigger crayons-btn crayons-btn--s crayons-btn--ghost crayons-btn--icon " aria-label="Toggle dropdown menu" aria-haspopup="true" data-initialized="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="aghua9exfj305svmjgymytx06frbeq88" class="crayons-icon pointer-events-none"><title id="aghua9exfj305svmjgymytx06frbeq88">Dropdown menu</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5.25 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm3.75 1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+</svg>
+
+    </button>
+    <div id="comment-dropdown-673288" class="crayons-dropdown right-1 s:right-0 s:left-auto fs-base dropdown">
+      <ul class="m-0">
+        <li><a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1c7pi" class="crayons-link crayons-link--block permalink-copybtn" aria-label="Copy link to Jorgen Skogstad&#39;s comment" data-no-instant="">Copy link</a></li>
+        <li class="comment-actions hidden" data-user-id="497648" data-action="settings-button" data-path="https://dev.to/jskogsta/comment/1c7pi/settings" aria-label="Go to Jorgen Skogstad&#39;s comment settings"></li>
+        <li class="comment-actions hidden" data-action="hide-button" data-commentable-user-id="207008" data-user-id="497648">
+            <button class="flex justify-between crayons-link crayons-link--block w-100 bg-transparent border-0 hide-comment" data-hide-type="hide" data-comment-id="673288" data-comment-url="https://dev.to/jskogsta/comment/1c7pi" aria-label="Hide Jorgen Skogstad&#39;s comment">
+              Hide
+            </button>
+        </li>
+        <li class="mod-actions hidden mod-actions-comment-button" data-path="https://dev.to/jskogsta/comment/1c7pi/mod" aria-label="Moderate Jorgen Skogstad&#39;s comment"></li>
+        <li class="report-abuse-link-wrapper" data-path="/report-abuse?url=https://dev.to/jskogsta/comment/1c7pi" aria-label="Report Jorgen Skogstad&#39;s comment as abusive or violating our code of conduct and/or terms and conditions"><a href="https://dev.to/report-abuse?url=https://dev.to/jskogsta/comment/1c7pi" class="crayons-link crayons-link--block">Report abuse</a></li>
+        <li class="current-user-actions"></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+        <div class="
+            comment__body
+            text-styles
+            text-styles--secondary
+            body
+            
+            
+          ">
+          <p>Got any thoughts as to how that can be extended consuming API's that have to be authenticated with a token similar to <a href="https://github.com/WildApricot/ApiSamples/blob/master/PHP/sampleApplication.php" rel="nofollow">github.com/WildApricot/ApiSamples/...</a> ? </p>
+
+<p>Essentially fulfilling the same process as this code?: </p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$waApiClient = WaApiClient::getInstance();
+
+$waApiClient-&gt;initTokenByApiKey('put_your_apikey_here');
+
+$account = getAccountDetails();
+$accountUrl = $account['Url'];
+
+$contactsResult = getContactsList(); 
+$contacts =  $contactsResult['Contacts'];
+
+foreach($contacts as $contact) {
+   echo '&lt;br /&gt;';
+   echo sprintf("#%d - %s", $contact['Id'], $contact['DisplayName']);
+}
+
+function getAccountDetails()
+{
+   global $waApiClient;
+   $url = 'https://api.wildapricot.org/v2/Accounts/';
+   $response = $waApiClient-&gt;makeRequest($url); 
+   return  $response[0]; // usually you have access to one account
+}
+
+function getContactsList()
+{
+   global $waApiClient;
+   global $accountUrl;
+   $queryParams = array(
+      '$async' =&gt; 'false', // execute request synchronously
+      '$top' =&gt; 10, // limit result set to 10 records
+      '$filter' =&gt; 'Member eq true', // filter only members
+      '$select' =&gt; 'First name, Last name'
+   ); // select only first name and last name to reduce size of json data
+   $url = $accountUrl . '/Contacts/?' . http_build_query($queryParams);
+   return $waApiClient-&gt;makeRequest($url);
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+        </div>
+
+    </div>
+
+    <footer class="comment__footer print-hidden">
+  <button class="crayons-tooltip__activator crayons-btn crayons-btn--ghost crayons-btn--icon-left crayons-btn--s mr-1 reaction-like inline-flex reaction-button" id="button-for-comment-673288" data-comment-id="673288" aria-label="like" data-tracking-name="comment_heart_button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="ass9z1svw7hhop7zjww9ff443gnwn8pl" class="crayons-icon reaction-icon not-reacted"><title id="ass9z1svw7hhop7zjww9ff443gnwn8pl">Like comment: </title><path d="M18.884 12.595l.01.011L12 19.5l-6.894-6.894.01-.01A4.875 4.875 0 0112 5.73a4.875 4.875 0 016.884 6.865zM6.431 7.037a3.375 3.375 0 000 4.773L12 17.38l5.569-5.569a3.375 3.375 0 10-4.773-4.773L9.613 10.22l-1.06-1.062 2.371-2.372a3.375 3.375 0 00-4.492.25v.001z"></path></svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="as7xdldny6587oh0uvth4jqewwgno0zn" class="crayons-icon crayons-icon reaction-icon--like reaction-icon reacted"><title id="as7xdldny6587oh0uvth4jqewwgno0zn">Like comment: </title>
+    <path d="M5.116 12.595a4.875 4.875 0 015.56-7.68h-.002L7.493 8.098l1.06 1.061 3.181-3.182a4.875 4.875 0 016.895 6.894L12 19.5l-6.894-6.894.01-.01z"></path>
+</svg>
+
+    <span class="reactions-count">1</span><span class="reactions-label hidden m:inline-block">&nbsp;like</span>
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Like
+    </span>
+  </button>
+
+      <a class="actions crayons-btn crayons-btn--ghost crayons-btn--s crayons-btn--icon-left toggle-reply-form mr-1 inline-flex" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/new/1c7pi" data-comment-id="673288" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1c7pi" data-tracking-name="comment_reply_button" data-testid="reply-button-673288" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="ae31qlpa6x2xlyw28t3jja13utk48u0m" class="crayons-icon reaction-icon not-reacted"><title id="ae31qlpa6x2xlyw28t3jja13utk48u0m">Comment button</title><path d="M10.5 5h3a6 6 0 110 12v2.625c-3.75-1.5-9-3.75-9-8.625a6 6 0 016-6zM12 15.5h1.5a4.501 4.501 0 001.722-8.657A4.5 4.5 0 0013.5 6.5h-3A4.5 4.5 0 006 11c0 2.707 1.846 4.475 6 6.36V15.5z"></path></svg>
+
+        <span class="hidden m:inline-block">Reply</span>
+      </a>
+
+</footer>
+
+  </div>
+</div>
+
+
+  </div>
+    </details>
+
+    <details class="comment-wrapper js-comment-wrapper comment-wrapper--deep-0
+                    root
+                    " open="">
+      <summary aria-label="Toggle this comment (and replies)" data-tracking-name="expand_comment_toggle">
+        <span class="m:mx-1 inline-block align-middle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="ajwm6mnpcbsyybkbpgbrm3a1pgbkd5y" class="crayons-icon expanded"><title id="ajwm6mnpcbsyybkbpgbrm3a1pgbkd5y">Collapse</title>
+    <path d="M12 10.677L8 6.935 9 6l3 2.807L15 6l1 .935-4 3.742zm0 4.517L9 18l-1-.935 4-3.742 4 3.742-1 .934-3-2.805z"></path>
+</svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="aeom4izrrl3ui9k4zfsdmdpljicmegk3" class="crayons-icon collapsed"><title id="aeom4izrrl3ui9k4zfsdmdpljicmegk3">Expand</title>
+    <path d="M12 18l-4-3.771 1-.943 3 2.829 3-2.829 1 .943L12 18zm0-10.115l-3 2.829-1-.943L12 6l4 3.771-1 .942-3-2.828z"></path>
+</svg>
+
+        </span>
+        <span class="js-collapse-comment-content inline-block align-middle"></span>
+      </summary>
+  <div id="comment-node-896142" class="
+      comment single-comment-node
+      
+      root
+      comment--deep-0
+      
+    " data-comment-id="896142" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1oph0" data-comment-author-id="867302" data-content-user-id="867302">
+    <a name="comment-1oph0" style="position: absolute; top: -8px;">&nbsp;</a>
+    
+<div class="comment__inner">
+    <a href="https://dev.to/wandieinnocents" class="shrink-0 crayons-avatar m:crayons-avatar--l mt-4 m:mt-3">
+    <img class="crayons-avatar__image" width="32" height="32" src="./consume-api_files/ae7d209b-a671-4302-897f-cc847f01c0d4.jpeg" alt="wandieinnocents profile image" loading="lazy">
+  </a>
+
+
+  <div class="inner-comment comment__details">
+    <div class="comment__content crayons-card">
+        
+
+
+        <div class="comment__header">
+  <a href="https://dev.to/wandieinnocents" class="crayons-link crayons-link--secondary flex items-center fw-medium m:hidden">
+    <span class="js-comment-username">WENAREEBA INNOCENT</span>
+  </a>
+  <div class="profile-preview-card relative mb-4 s:mb-0 fw-medium hidden m:block">
+    <button id="comment-profile-preview-trigger-896142" aria-controls="comment-profile-preview-content-896142" class="profile-preview-card__trigger p-1 -my-1 -ml-1 crayons-btn crayons-btn--ghost" aria-label="WENAREEBA INNOCENT profile details" aria-expanded="false" aria-haspopup="true" data-initialized="true">
+      WENAREEBA INNOCENT
+    </button>
+    <div id="comment-profile-preview-content-896142" class="profile-preview-card__content p-4 pt-0 branded-7 crayons-dropdown reverse" style="--card-color: #000000; border-top-color: var(--card-color);" data-testid="profile-preview-card" data-repositioning-dropdown="true">
+    <div class="gap-4 grid">
+        <div class="-mt-4">
+  <a href="https://dev.to/wandieinnocents" class="flex">
+    <span class="crayons-avatar crayons-avatar--xl  mr-2 shrink-0">
+      <img src="./consume-api_files/ae7d209b-a671-4302-897f-cc847f01c0d4(1).jpeg" class="crayons-avatar__image" alt="" loading="lazy">
+    </span>
+    <span class="crayons-link crayons-subtitle-2 mt-5">WENAREEBA INNOCENT</span>
+  </a>
+</div>
+
+<div class="print-hidden">
+  <button name="button" type="button" data-info="{&quot;className&quot;:&quot;User&quot;,&quot;style&quot;:&quot;&quot;,&quot;id&quot;:867302,&quot;name&quot;:&quot;WENAREEBA INNOCENT&quot;}" class="crayons-btn follow-action-button whitespace-nowrap w-100 follow-user" aria-label="Follow user: WENAREEBA INNOCENT" aria-pressed="false" data-fetched="fetched">Follow</button>
+</div>
+
+  <div class="user-metadata-details">
+    <ul class="user-metadata-details-inner">
+      <li>
+        <div class="key">
+          Joined
+        </div>
+        <div class="value">
+          <time datetime="2022-05-24T17:19:33Z" class="date" title="Wednesday, May 25, 2022 at 12:19:33 AM">May 25, 2022</time>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+    </div>
+</div>
+
+  </div>
+
+  <span class="color-base-30 px-2 m:pl-0" role="presentation">•</span>
+
+<a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1oph0" class="comment-date crayons-link crayons-link--secondary fs-s">
+  <time datetime="2022-05-27T20:28:15Z" class="date-short-year" title="Saturday, May 28, 2022 at 3:28:15 AM">May 28 '22</time>
+
+</a>
+
+
+  <div class="comment__dropdown" data-tracking-name="comment_dropdown">
+    <button id="comment-dropdown-trigger-896142" aria-controls="comment-dropdown-896142" aria-expanded="false" class="dropbtn comment__dropdown-trigger crayons-btn crayons-btn--s crayons-btn--ghost crayons-btn--icon " aria-label="Toggle dropdown menu" aria-haspopup="true" data-initialized="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="ae25gbdk1yeen0rt39uffx414fyhfidx" class="crayons-icon pointer-events-none"><title id="ae25gbdk1yeen0rt39uffx414fyhfidx">Dropdown menu</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5.25 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm3.75 1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+</svg>
+
+    </button>
+    <div id="comment-dropdown-896142" class="crayons-dropdown right-1 s:right-0 s:left-auto fs-base dropdown">
+      <ul class="m-0">
+        <li><a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1oph0" class="crayons-link crayons-link--block permalink-copybtn" aria-label="Copy link to WENAREEBA INNOCENT&#39;s comment" data-no-instant="">Copy link</a></li>
+        <li class="comment-actions hidden" data-user-id="867302" data-action="settings-button" data-path="https://dev.to/wandieinnocents/comment/1oph0/settings" aria-label="Go to WENAREEBA INNOCENT&#39;s comment settings"></li>
+        <li class="comment-actions hidden" data-action="hide-button" data-commentable-user-id="207008" data-user-id="867302">
+            <button class="flex justify-between crayons-link crayons-link--block w-100 bg-transparent border-0 hide-comment" data-hide-type="hide" data-comment-id="896142" data-comment-url="https://dev.to/wandieinnocents/comment/1oph0" aria-label="Hide WENAREEBA INNOCENT&#39;s comment">
+              Hide
+            </button>
+        </li>
+        <li class="mod-actions hidden mod-actions-comment-button" data-path="https://dev.to/wandieinnocents/comment/1oph0/mod" aria-label="Moderate WENAREEBA INNOCENT&#39;s comment"></li>
+        <li class="report-abuse-link-wrapper" data-path="/report-abuse?url=https://dev.to/wandieinnocents/comment/1oph0" aria-label="Report WENAREEBA INNOCENT&#39;s comment as abusive or violating our code of conduct and/or terms and conditions"><a href="https://dev.to/report-abuse?url=https://dev.to/wandieinnocents/comment/1oph0" class="crayons-link crayons-link--block">Report abuse</a></li>
+        <li class="current-user-actions"></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+        <div class="
+            comment__body
+            text-styles
+            text-styles--secondary
+            body
+            
+            
+          ">
+          <p>This has been helpful , had to make modifications , very good foundation of consuming apis.</p>
+
+
+        </div>
+
+    </div>
+
+    <footer class="comment__footer print-hidden">
+  <button class="crayons-tooltip__activator crayons-btn crayons-btn--ghost crayons-btn--icon-left crayons-btn--s mr-1 reaction-like inline-flex reaction-button" id="button-for-comment-896142" data-comment-id="896142" aria-label="like" data-tracking-name="comment_heart_button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="agnmafmd42172gp6ar5nlv4cuck3mm50" class="crayons-icon reaction-icon not-reacted"><title id="agnmafmd42172gp6ar5nlv4cuck3mm50">Like comment: </title><path d="M18.884 12.595l.01.011L12 19.5l-6.894-6.894.01-.01A4.875 4.875 0 0112 5.73a4.875 4.875 0 016.884 6.865zM6.431 7.037a3.375 3.375 0 000 4.773L12 17.38l5.569-5.569a3.375 3.375 0 10-4.773-4.773L9.613 10.22l-1.06-1.062 2.371-2.372a3.375 3.375 0 00-4.492.25v.001z"></path></svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="aqkygn9yv3ol8robt0ly17o5z63udl30" class="crayons-icon crayons-icon reaction-icon--like reaction-icon reacted"><title id="aqkygn9yv3ol8robt0ly17o5z63udl30">Like comment: </title>
+    <path d="M5.116 12.595a4.875 4.875 0 015.56-7.68h-.002L7.493 8.098l1.06 1.061 3.181-3.182a4.875 4.875 0 016.895 6.894L12 19.5l-6.894-6.894.01-.01z"></path>
+</svg>
+
+    <span class="reactions-count">1</span><span class="reactions-label hidden m:inline-block">&nbsp;like</span>
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Like
+    </span>
+  </button>
+
+      <a class="actions crayons-btn crayons-btn--ghost crayons-btn--s crayons-btn--icon-left toggle-reply-form mr-1 inline-flex" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/new/1oph0" data-comment-id="896142" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1oph0" data-tracking-name="comment_reply_button" data-testid="reply-button-896142" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="aek2sj7i0xl40w9b12v2o1gvja60rliu" class="crayons-icon reaction-icon not-reacted"><title id="aek2sj7i0xl40w9b12v2o1gvja60rliu">Comment button</title><path d="M10.5 5h3a6 6 0 110 12v2.625c-3.75-1.5-9-3.75-9-8.625a6 6 0 016-6zM12 15.5h1.5a4.501 4.501 0 001.722-8.657A4.5 4.5 0 0013.5 6.5h-3A4.5 4.5 0 006 11c0 2.707 1.846 4.475 6 6.36V15.5z"></path></svg>
+
+        <span class="hidden m:inline-block">Reply</span>
+      </a>
+
+</footer>
+
+  </div>
+</div>
+
+
+  </div>
+    </details>
+
+    <details class="comment-wrapper js-comment-wrapper comment-wrapper--deep-0
+                    root
+                    " open="">
+      <summary aria-label="Toggle this comment (and replies)" data-tracking-name="expand_comment_toggle">
+        <span class="m:mx-1 inline-block align-middle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="a47jb07c9jz0qhgc5oa7jqc3o4z9htrn" class="crayons-icon expanded"><title id="a47jb07c9jz0qhgc5oa7jqc3o4z9htrn">Collapse</title>
+    <path d="M12 10.677L8 6.935 9 6l3 2.807L15 6l1 .935-4 3.742zm0 4.517L9 18l-1-.935 4-3.742 4 3.742-1 .934-3-2.805z"></path>
+</svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="apdbt2fr8ka9qqsma3jsf62njjbtsvxa" class="crayons-icon collapsed"><title id="apdbt2fr8ka9qqsma3jsf62njjbtsvxa">Expand</title>
+    <path d="M12 18l-4-3.771 1-.943 3 2.829 3-2.829 1 .943L12 18zm0-10.115l-3 2.829-1-.943L12 6l4 3.771-1 .942-3-2.828z"></path>
+</svg>
+
+        </span>
+        <span class="js-collapse-comment-content inline-block align-middle"></span>
+      </summary>
+  <div id="comment-node-690444" class="
+      comment single-comment-node
+      
+      root
+      comment--deep-0
+      
+    " data-comment-id="690444" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1d79e" data-comment-author-id="597910" data-content-user-id="597910">
+    <a name="comment-1d79e" style="position: absolute; top: -8px;">&nbsp;</a>
+    
+<div class="comment__inner">
+    <a href="https://dev.to/geekabel" class="shrink-0 crayons-avatar m:crayons-avatar--l mt-4 m:mt-3">
+    <img class="crayons-avatar__image" width="32" height="32" src="./consume-api_files/e4c0b4ce-2f0c-42cf-975c-f8dbd9d464ca.png" alt="geekabel profile image" loading="lazy">
+  </a>
+
+
+  <div class="inner-comment comment__details">
+    <div class="comment__content crayons-card">
+        
+
+
+        <div class="comment__header">
+  <a href="https://dev.to/geekabel" class="crayons-link crayons-link--secondary flex items-center fw-medium m:hidden">
+    <span class="js-comment-username">Godwin</span>
+  </a>
+  <div class="profile-preview-card relative mb-4 s:mb-0 fw-medium hidden m:block">
+    <button id="comment-profile-preview-trigger-690444" aria-controls="comment-profile-preview-content-690444" class="profile-preview-card__trigger p-1 -my-1 -ml-1 crayons-btn crayons-btn--ghost" aria-label="Godwin profile details" aria-expanded="false" aria-haspopup="true" data-initialized="true">
+      Godwin
+    </button>
+    <div id="comment-profile-preview-content-690444" class="profile-preview-card__content p-4 pt-0 branded-7 crayons-dropdown reverse" style="--card-color: #160533; border-top-color: var(--card-color);" data-testid="profile-preview-card" data-repositioning-dropdown="true">
+    <div class="gap-4 grid">
+        <div class="-mt-4">
+  <a href="https://dev.to/geekabel" class="flex">
+    <span class="crayons-avatar crayons-avatar--xl  mr-2 shrink-0">
+      <img src="./consume-api_files/e4c0b4ce-2f0c-42cf-975c-f8dbd9d464ca(1).png" class="crayons-avatar__image" alt="" loading="lazy">
+    </span>
+    <span class="crayons-link crayons-subtitle-2 mt-5">Godwin</span>
+  </a>
+</div>
+
+<div class="print-hidden">
+  <button name="button" type="button" data-info="{&quot;className&quot;:&quot;User&quot;,&quot;style&quot;:&quot;&quot;,&quot;id&quot;:597910,&quot;name&quot;:&quot;Godwin&quot;}" class="crayons-btn follow-action-button whitespace-nowrap w-100 follow-user" aria-label="Follow user: Godwin" aria-pressed="false" data-fetched="fetched">Follow</button>
+</div>
+
+  <div class="user-metadata-details">
+    <ul class="user-metadata-details-inner">
+      <li>
+        <div class="key">
+          Joined
+        </div>
+        <div class="value">
+          <time datetime="2021-03-17T08:20:20Z" class="date" title="Wednesday, March 17, 2021 at 3:20:20 PM">Mar 17, 2021</time>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+    </div>
+</div>
+
+  </div>
+
+  <span class="color-base-30 px-2 m:pl-0" role="presentation">•</span>
+
+<a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1d79e" class="comment-date crayons-link crayons-link--secondary fs-s">
+  <time datetime="2021-04-07T17:24:36Z" class="date-short-year" title="Thursday, April 8, 2021 at 12:24:36 AM">Apr 8 '21</time>
+
+</a>
+
+
+  <div class="comment__dropdown" data-tracking-name="comment_dropdown">
+    <button id="comment-dropdown-trigger-690444" aria-controls="comment-dropdown-690444" aria-expanded="false" class="dropbtn comment__dropdown-trigger crayons-btn crayons-btn--s crayons-btn--ghost crayons-btn--icon " aria-label="Toggle dropdown menu" aria-haspopup="true" data-initialized="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="a88p4wlvmhvzth7x6aburaktkbm6zno0" class="crayons-icon pointer-events-none"><title id="a88p4wlvmhvzth7x6aburaktkbm6zno0">Dropdown menu</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5.25 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm3.75 1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+</svg>
+
+    </button>
+    <div id="comment-dropdown-690444" class="crayons-dropdown right-1 s:right-0 s:left-auto fs-base dropdown">
+      <ul class="m-0">
+        <li><a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1d79e" class="crayons-link crayons-link--block permalink-copybtn" aria-label="Copy link to Godwin&#39;s comment" data-no-instant="">Copy link</a></li>
+        <li class="comment-actions hidden" data-user-id="597910" data-action="settings-button" data-path="https://dev.to/geekabel/comment/1d79e/settings" aria-label="Go to Godwin&#39;s comment settings"></li>
+        <li class="comment-actions hidden" data-action="hide-button" data-commentable-user-id="207008" data-user-id="597910">
+            <button class="flex justify-between crayons-link crayons-link--block w-100 bg-transparent border-0 hide-comment" data-hide-type="hide" data-comment-id="690444" data-comment-url="https://dev.to/geekabel/comment/1d79e" aria-label="Hide Godwin&#39;s comment">
+              Hide
+            </button>
+        </li>
+        <li class="mod-actions hidden mod-actions-comment-button" data-path="https://dev.to/geekabel/comment/1d79e/mod" aria-label="Moderate Godwin&#39;s comment"></li>
+        <li class="report-abuse-link-wrapper" data-path="/report-abuse?url=https://dev.to/geekabel/comment/1d79e" aria-label="Report Godwin&#39;s comment as abusive or violating our code of conduct and/or terms and conditions"><a href="https://dev.to/report-abuse?url=https://dev.to/geekabel/comment/1d79e" class="crayons-link crayons-link--block">Report abuse</a></li>
+        <li class="current-user-actions"></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+        <div class="
+            comment__body
+            text-styles
+            text-styles--secondary
+            body
+            
+            
+          ">
+          <p>What about put , delete, post request?</p>
+
+
+        </div>
+
+    </div>
+
+    <footer class="comment__footer print-hidden">
+  <button class="crayons-tooltip__activator crayons-btn crayons-btn--ghost crayons-btn--icon crayons-btn--s mr-1 reaction-like inline-flex reaction-button" id="button-for-comment-690444" data-comment-id="690444" aria-label="like" data-tracking-name="comment_heart_button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="a2p09k9gggca3fpb1w28z2mc3pl7ej0v" class="crayons-icon reaction-icon not-reacted"><title id="a2p09k9gggca3fpb1w28z2mc3pl7ej0v">Like comment: </title><path d="M18.884 12.595l.01.011L12 19.5l-6.894-6.894.01-.01A4.875 4.875 0 0112 5.73a4.875 4.875 0 016.884 6.865zM6.431 7.037a3.375 3.375 0 000 4.773L12 17.38l5.569-5.569a3.375 3.375 0 10-4.773-4.773L9.613 10.22l-1.06-1.062 2.371-2.372a3.375 3.375 0 00-4.492.25v.001z"></path></svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="a1vqvvjjn510kgv0oiqo2h5bv1qbx0wz" class="crayons-icon crayons-icon reaction-icon--like reaction-icon reacted"><title id="a1vqvvjjn510kgv0oiqo2h5bv1qbx0wz">Like comment: </title>
+    <path d="M5.116 12.595a4.875 4.875 0 015.56-7.68h-.002L7.493 8.098l1.06 1.061 3.181-3.182a4.875 4.875 0 016.895 6.894L12 19.5l-6.894-6.894.01-.01z"></path>
+</svg>
+
+    <span class="reactions-count"></span><span class="reactions-label hidden m:inline-block"></span>
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Like
+    </span>
+  </button>
+
+      <a class="actions crayons-btn crayons-btn--ghost crayons-btn--s crayons-btn--icon-left toggle-reply-form mr-1 inline-flex" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/new/1d79e" data-comment-id="690444" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1d79e" data-tracking-name="comment_reply_button" data-testid="reply-button-690444" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="as5tdj9bwlap6ovayzy68ky0o8jsx6d" class="crayons-icon reaction-icon not-reacted"><title id="as5tdj9bwlap6ovayzy68ky0o8jsx6d">Comment button</title><path d="M10.5 5h3a6 6 0 110 12v2.625c-3.75-1.5-9-3.75-9-8.625a6 6 0 016-6zM12 15.5h1.5a4.501 4.501 0 001.722-8.657A4.5 4.5 0 0013.5 6.5h-3A4.5 4.5 0 006 11c0 2.707 1.846 4.475 6 6.36V15.5z"></path></svg>
+
+        <span class="hidden m:inline-block">Reply</span>
+      </a>
+
+</footer>
+
+  </div>
+</div>
+    <details class="comment-wrapper js-comment-wrapper comment-wrapper--deep-1
+                    child
+                    " open="">
+      <summary aria-label="Toggle this comment (and replies)" data-tracking-name="expand_comment_toggle">
+        <span class="mx-0 inline-block align-middle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="a4i18fj58i7aex20jjfp8l8mo7rbdbn0" class="crayons-icon expanded"><title id="a4i18fj58i7aex20jjfp8l8mo7rbdbn0">Collapse</title>
+    <path d="M12 10.677L8 6.935 9 6l3 2.807L15 6l1 .935-4 3.742zm0 4.517L9 18l-1-.935 4-3.742 4 3.742-1 .934-3-2.805z"></path>
+</svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="aspj711nricjrbzrip4go48mplog71i" class="crayons-icon collapsed"><title id="aspj711nricjrbzrip4go48mplog71i">Expand</title>
+    <path d="M12 18l-4-3.771 1-.943 3 2.829 3-2.829 1 .943L12 18zm0-10.115l-3 2.829-1-.943L12 6l4 3.771-1 .942-3-2.828z"></path>
+</svg>
+
+        </span>
+        <span class="js-collapse-comment-content inline-block align-middle"></span>
+      </summary>
+  <div id="comment-node-744018" class="
+      comment single-comment-node
+      
+      child
+      comment--deep-1
+      
+    " data-comment-id="744018" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1g8g2" data-comment-author-id="645542" data-content-user-id="645542">
+    <a name="comment-1g8g2" style="position: absolute; top: -8px;">&nbsp;</a>
+    
+<div class="comment__inner">
+    <a href="https://dev.to/benjaminv" class="shrink-0 crayons-avatar mt-4">
+    <img class="crayons-avatar__image" width="32" height="32" src="./consume-api_files/44588b24-589a-4655-b3f0-968bb7be31ad.jpeg" alt="benjaminv profile image" loading="lazy">
+  </a>
+
+
+  <div class="inner-comment comment__details">
+    <div class="comment__content crayons-card">
+        
+
+
+        <div class="comment__header">
+  <a href="https://dev.to/benjaminv" class="crayons-link crayons-link--secondary flex items-center fw-medium m:hidden">
+    <span class="js-comment-username">benjaminv</span>
+  </a>
+  <div class="profile-preview-card relative mb-4 s:mb-0 fw-medium hidden m:block">
+    <button id="comment-profile-preview-trigger-744018" aria-controls="comment-profile-preview-content-744018" class="profile-preview-card__trigger p-1 -my-1 -ml-1 crayons-btn crayons-btn--ghost" aria-label="benjaminv profile details" aria-expanded="false" aria-haspopup="true" data-initialized="true">
+      benjaminv
+    </button>
+    <div id="comment-profile-preview-content-744018" class="profile-preview-card__content p-4 pt-0 branded-7 crayons-dropdown reverse" style="--card-color: #000000; border-top-color: var(--card-color);" data-testid="profile-preview-card" data-repositioning-dropdown="true">
+    <div class="gap-4 grid">
+        <div class="-mt-4">
+  <a href="https://dev.to/benjaminv" class="flex">
+    <span class="crayons-avatar crayons-avatar--xl  mr-2 shrink-0">
+      <img src="./consume-api_files/44588b24-589a-4655-b3f0-968bb7be31ad(1).jpeg" class="crayons-avatar__image" alt="" loading="lazy">
+    </span>
+    <span class="crayons-link crayons-subtitle-2 mt-5">benjaminv</span>
+  </a>
+</div>
+
+<div class="print-hidden">
+  <button name="button" type="button" data-info="{&quot;className&quot;:&quot;User&quot;,&quot;style&quot;:&quot;&quot;,&quot;id&quot;:645542,&quot;name&quot;:&quot;benjaminv&quot;}" class="crayons-btn follow-action-button whitespace-nowrap w-100 follow-user" aria-label="Follow user: benjaminv" aria-pressed="false" data-fetched="fetched">Follow</button>
+</div>
+
+  <div class="user-metadata-details">
+    <ul class="user-metadata-details-inner">
+          <li>
+            <div class="key">
+              Work
+            </div>
+            <div class="value">
+              Junior Front-end Developer at seedme
+            </div>
+          </li>
+      <li>
+        <div class="key">
+          Joined
+        </div>
+        <div class="value">
+          <time datetime="2021-06-07T20:24:39Z" class="date" title="Tuesday, June 8, 2021 at 3:24:39 AM">Jun 8, 2021</time>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+    </div>
+</div>
+
+  </div>
+
+  <span class="color-base-30 px-2 m:pl-0" role="presentation">•</span>
+
+<a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1g8g2" class="comment-date crayons-link crayons-link--secondary fs-s">
+  <time datetime="2021-07-13T07:18:15Z" class="date-short-year" title="Tuesday, July 13, 2021 at 2:18:15 PM">Jul 13 '21</time>
+
+</a>
+
+
+  <div class="comment__dropdown" data-tracking-name="comment_dropdown">
+    <button id="comment-dropdown-trigger-744018" aria-controls="comment-dropdown-744018" aria-expanded="false" class="dropbtn comment__dropdown-trigger crayons-btn crayons-btn--s crayons-btn--ghost crayons-btn--icon " aria-label="Toggle dropdown menu" aria-haspopup="true" data-initialized="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="ajrxg2wk0e51xznrur19tsu2he6dkwlk" class="crayons-icon pointer-events-none"><title id="ajrxg2wk0e51xznrur19tsu2he6dkwlk">Dropdown menu</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5.25 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm3.75 1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+</svg>
+
+    </button>
+    <div id="comment-dropdown-744018" class="crayons-dropdown right-1 s:right-0 s:left-auto fs-base dropdown">
+      <ul class="m-0">
+        <li><a href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#comment-1g8g2" class="crayons-link crayons-link--block permalink-copybtn" aria-label="Copy link to benjaminv&#39;s comment" data-no-instant="">Copy link</a></li>
+        <li class="comment-actions hidden" data-user-id="645542" data-action="settings-button" data-path="https://dev.to/benjaminv/comment/1g8g2/settings" aria-label="Go to benjaminv&#39;s comment settings"></li>
+        <li class="comment-actions hidden" data-action="hide-button" data-commentable-user-id="207008" data-user-id="645542">
+            <button class="flex justify-between crayons-link crayons-link--block w-100 bg-transparent border-0 hide-comment" data-hide-type="hide" data-comment-id="744018" data-comment-url="https://dev.to/benjaminv/comment/1g8g2" aria-label="Hide benjaminv&#39;s comment">
+              Hide
+            </button>
+        </li>
+        <li class="mod-actions hidden mod-actions-comment-button" data-path="https://dev.to/benjaminv/comment/1g8g2/mod" aria-label="Moderate benjaminv&#39;s comment"></li>
+        <li class="report-abuse-link-wrapper" data-path="/report-abuse?url=https://dev.to/benjaminv/comment/1g8g2" aria-label="Report benjaminv&#39;s comment as abusive or violating our code of conduct and/or terms and conditions"><a href="https://dev.to/report-abuse?url=https://dev.to/benjaminv/comment/1g8g2" class="crayons-link crayons-link--block">Report abuse</a></li>
+        <li class="current-user-actions"></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+        <div class="
+            comment__body
+            text-styles
+            text-styles--secondary
+            body
+            
+            
+          ">
+          <p>Accidentally found the link in the repo readme.md as <code>https://dev.to/kingsconsult/laravel-8-crud-bi9</code></p>
+
+
+        </div>
+
+    </div>
+
+    <footer class="comment__footer print-hidden">
+  <button class="crayons-tooltip__activator crayons-btn crayons-btn--ghost crayons-btn--icon-left crayons-btn--s mr-1 reaction-like inline-flex reaction-button" id="button-for-comment-744018" data-comment-id="744018" aria-label="like" data-tracking-name="comment_heart_button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="a7i9q8wzxed5fdujmen05lcsm2bqnxgg" class="crayons-icon reaction-icon not-reacted"><title id="a7i9q8wzxed5fdujmen05lcsm2bqnxgg">Like comment: </title><path d="M18.884 12.595l.01.011L12 19.5l-6.894-6.894.01-.01A4.875 4.875 0 0112 5.73a4.875 4.875 0 016.884 6.865zM6.431 7.037a3.375 3.375 0 000 4.773L12 17.38l5.569-5.569a3.375 3.375 0 10-4.773-4.773L9.613 10.22l-1.06-1.062 2.371-2.372a3.375 3.375 0 00-4.492.25v.001z"></path></svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="a29zskyop92ccas5pj6drzea1iig6z1v" class="crayons-icon crayons-icon reaction-icon--like reaction-icon reacted"><title id="a29zskyop92ccas5pj6drzea1iig6z1v">Like comment: </title>
+    <path d="M5.116 12.595a4.875 4.875 0 015.56-7.68h-.002L7.493 8.098l1.06 1.061 3.181-3.182a4.875 4.875 0 016.895 6.894L12 19.5l-6.894-6.894.01-.01z"></path>
+</svg>
+
+    <span class="reactions-count">1</span><span class="reactions-label hidden m:inline-block">&nbsp;like</span>
+    <span data-testid="tooltip" class="crayons-tooltip__content">
+      Like
+    </span>
+  </button>
+
+      <a class="actions crayons-btn crayons-btn--ghost crayons-btn--s crayons-btn--icon-left toggle-reply-form mr-1 inline-flex" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/new/1g8g2" data-comment-id="744018" data-path="/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii/comments/1g8g2" data-tracking-name="comment_reply_button" data-testid="reply-button-744018" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" role="img" aria-labelledby="a2knufi4i8i5m7a1vk69q7nwnafcvw74" class="crayons-icon reaction-icon not-reacted"><title id="a2knufi4i8i5m7a1vk69q7nwnafcvw74">Comment button</title><path d="M10.5 5h3a6 6 0 110 12v2.625c-3.75-1.5-9-3.75-9-8.625a6 6 0 016-6zM12 15.5h1.5a4.501 4.501 0 001.722-8.657A4.5 4.5 0 0013.5 6.5h-3A4.5 4.5 0 006 11c0 2.707 1.846 4.475 6 6.36V15.5z"></path></svg>
+
+        <span class="hidden m:inline-block">Reply</span>
+      </a>
+
+</footer>
+
+  </div>
+</div>
+
+
+  </div>
+    </details>
+
+
+  </div>
+    </details>
+
+
+        </div>
+      </div>
+
+      <div class="align-center">
+
+
+  <nav class="fs-s align-center block" aria-label="Conduct controls">
+  <a href="https://dev.to/code-of-conduct" class="crayons-link crayons-link--secondary">Code of Conduct</a>
+  <span class="opacity-25 px-2" role="presentation">•</span>
+  <a href="https://dev.to/report-abuse" class="crayons-link crayons-link--secondary">Report abuse</a>
+</nav>
+
+</div>
+
+  </section>
+  <div id="hide-comments-modal" class="hidden">
+  <form id="hide-comments-modal__form" class="hide-comments-modal__form" data-type="json" action="https://dev.to/comments/hide" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓" autocomplete="off"><input type="hidden" name="_method" value="patch" autocomplete="off"><input type="hidden" name="authenticity_token" value="WrwsZdSnR2X31C1vdycs8THS8eX1shzN8mk0AU_kvpN2OSovi0LMEp9_3TLNZk8QfLVBsq_qspTb7_n_OULZIg" autocomplete="off">
+    <div class="hide-comments-modal__content">
+      <p class="pb-2">
+        Are you sure you want to hide this comment? It will become hidden in your post, but will still be visible via the comment's <a id="hide-comments-modal__comment-permalink" href="https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii#">permalink</a>.
+      </p>
+      <label class="crayons-field crayons-field--checkbox my-2">
+        <input name="hide_children" type="hidden" value="0" autocomplete="off"><input class="hide_children crayons-checkbox" type="checkbox" value="1" name="hide_children" id="hide_children">
+        <p class="crayons-field__label">Hide child comments as well</p>
+      </label>
+      <p class="pb-4 pt-2">
+        <button type="submit" class="crayons-btn">
+          Confirm
+        </button>
+      </p>
+    </div>
+</form>  <p class="fs-s color-base-60">For further actions, you may consider blocking this person and/or <a id="hide-comments-modal__report-link" href="https://dev.to/report-abuse">reporting abuse</a></p>
+</div>
+
+
+
+      </article>
+
+          <div class="crayons-card crayons-card--secondary crayons-sponsorship-article text-styles" data-display-unit="" data-id="487" data-category-click="click" data-category-impression="impression" data-context-type="home" data-impression-recorded="true">
+            <p><img src="./consume-api_files/t5dr7nx5ql7hdv78uou7.jpg" alt="Create an Account!" width="1200" height="450" loading="lazy"> <br>Now it's your turn!<br>&nbsp;<br>🗒 Share a tutorial<br>🤔 Reflect on your coding journey<br>❓ Ask a question</p><p><strong><a href="https://dev.to/enter?state=new-user">Create an account</a> to join hundreds of thousands of DEV members on their journey.</strong></p>
+          </div>
+
+          <section class="crayons-card crayons-card--secondary text-padding mb-4 print-hidden" id="bottom-content-read-next">
+    <h2 class="crayons-subtitle-1">Read next</h2>
+      <a href="https://dev.to/dashsaurabh/5-must-avoid-pitfalls-in-software-development-9hg" data-preload-image="https://res.cloudinary.com/practicaldev/image/fetch/s--VEogh-UE--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/acc4d7uvwab5t43th591.png" class="crayons-link mt-6 block">
+        <div class="flex items-center">
+          <span class="crayons-avatar crayons-avatar--xl m:crayons-avatar--2xl mr-4 shrink-0">
+              <img loading="lazy" alt="dashsaurabh profile image" class="crayons-avatar__image" width="100" height="100" src="./consume-api_files/608ec4c9-0349-4838-93c2-c14d7a7f2780.jpeg">
+          </span>
+          <div>
+            <h3 class="fs-xl mb-0 lh-tight">5 Must-Avoid Pitfalls in Software Development</h3>
+            <p class="opacity-75 pt-1">
+              Saurabh Dashora - <time datetime="2023-02-02T13:05:07Z">Feb 2</time>
+            </p>
+          </div>
+        </div>
+      </a>
+      <a href="https://dev.to/kkumargcc/how-to-implement-an-autocomplete-typeahead-search-feature-in-laravel-1me6" data-preload-image="https://res.cloudinary.com/practicaldev/image/fetch/s--3WVcO8Jr--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0llfc1ovmuaxbae07ymf.png" class="crayons-link mt-6 block">
+        <div class="flex items-center">
+          <span class="crayons-avatar crayons-avatar--xl m:crayons-avatar--2xl mr-4 shrink-0">
+              <img loading="lazy" alt="kkumargcc profile image" class="crayons-avatar__image" width="100" height="100" src="./consume-api_files/f58c4d9b-3442-4aaa-97d2-9cb3a6f3c671.jpg">
+          </span>
+          <div>
+            <h3 class="fs-xl mb-0 lh-tight">How to Implement an Autocomplete Typeahead Search Feature in Laravel</h3>
+            <p class="opacity-75 pt-1">
+              kkumar-gcc - <time datetime="2023-02-02T18:09:55Z">Feb 2</time>
+            </p>
+          </div>
+        </div>
+      </a>
+      <a href="https://dev.to/signoz/fluentd-vs-fluentbit-which-log-collector-to-choose-4md1" data-preload-image="https://res.cloudinary.com/practicaldev/image/fetch/s--KeimLGYU--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xt5k5ve5el5rhd03j4nc.png" class="crayons-link mt-6 block">
+        <div class="flex items-center">
+          <span class="crayons-avatar crayons-avatar--xl m:crayons-avatar--2xl mr-4 shrink-0">
+              <img loading="lazy" alt="ankit01oss profile image" class="crayons-avatar__image" width="100" height="100" src="./consume-api_files/c10c17aa-2556-49b8-9ffa-1c31cc9675e4.png">
+          </span>
+          <div>
+            <h3 class="fs-xl mb-0 lh-tight">FluentD vs FluentBit - Which log collector to choose?</h3>
+            <p class="opacity-75 pt-1">
+              Ankit Anand ✨ - <time datetime="2023-02-02T13:37:39Z">Feb 2</time>
+            </p>
+          </div>
+        </div>
+      </a>
+      <a href="https://dev.to/chaos-genius/22-best-dataops-tools-to-optimize-your-data-management-and-observability-in-2023-1ooc" data-preload-image="https://res.cloudinary.com/practicaldev/image/fetch/s--Jv61kmCN--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/p3ik4fhd7pbck8uek5k7.jpg" class="crayons-link mt-6 block">
+        <div class="flex items-center">
+          <span class="crayons-avatar crayons-avatar--xl m:crayons-avatar--2xl mr-4 shrink-0">
+              <img loading="lazy" alt="pramit_marattha profile image" class="crayons-avatar__image" width="100" height="100" src="./consume-api_files/f04996e5-b2bc-48b2-b362-dbe716bb5b38.JPG">
+          </span>
+          <div>
+            <h3 class="fs-xl mb-0 lh-tight">22 Best DataOps Tools To Optimize Your Data Management and Observability In 2023</h3>
+            <p class="opacity-75 pt-1">
+              Pramit Marattha - <time datetime="2023-02-02T08:30:04Z">Feb 2</time>
+            </p>
+          </div>
+        </div>
+      </a>
+  </section>
+
+    </div>
+  </main>
+
+  <aside class="crayons-layout__sidebar-right" aria-label="Author details">
+    <div class="crayons-article-sticky grid gap-4 break-word" id="article-show-primary-sticky-nav">
+  <div class="crayons-card crayons-card--secondary branded-7 p-4 pt-0 gap-4 grid" style="border-top-color: #002a9e;">
+    <div class="-mt-4">
+  <a href="https://dev.to/kingsconsult" class="flex">
+    <span class="crayons-avatar crayons-avatar--xl  mr-2 shrink-0">
+      <img src="./consume-api_files/824cfe72-bea5-409c-ba5d-88553171edd3(2).png" class="crayons-avatar__image" alt="" loading="lazy">
+    </span>
+    <span class="crayons-link crayons-subtitle-2 mt-5">Kingsconsult</span>
+  </a>
+</div>
+
+<div class="print-hidden">
+  <button name="button" type="button" data-info="{&quot;className&quot;:&quot;User&quot;,&quot;style&quot;:&quot;&quot;,&quot;id&quot;:207008,&quot;name&quot;:&quot;Kingsconsult&quot;}" class="crayons-btn follow-action-button whitespace-nowrap w-100 follow-user" aria-label="Follow user: Kingsconsult" aria-pressed="false" data-fetched="fetched">Follow</button>
+</div>
+  <div class="color-base-70">
+    I am Kingsley Okpara, a Python and PHP Fullstack Web developer and tech writer, I also have extensive knowledge and experience with  JavaScript while working on applications developed with VueJs. 
+  </div>
+
+  <div class="user-metadata-details">
+    <ul class="user-metadata-details-inner">
+        <li>
+          <div class="key">
+            Location
+          </div>
+          <div class="value">
+            Lagos, Nigeria
+          </div>
+        </li>
+          <li>
+            <div class="key">
+              Education
+            </div>
+            <div class="value">
+              Bsc.ed Mathematics, Enugu State University of Science and Technology, Enugu, Nigeria
+            </div>
+          </li>
+          <li>
+            <div class="key">
+              Work
+            </div>
+            <div class="value">
+              Mid-level Web Developer at Plexada-Si
+            </div>
+          </li>
+      <li>
+        <div class="key">
+          Joined
+        </div>
+        <div class="value">
+          <time datetime="2019-08-05T04:58:16Z" class="date">Aug 5, 2019</time>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  </div>
+
+      <div class="crayons-card crayons-card--secondary">
+        <header class="crayons-card__header">
+          <h3 class="crayons-subtitle-2">
+            More from <a href="https://dev.to/kingsconsult">Kingsconsult</a>
+          </h3>
+        </header>
+        <div>
+            <a class="crayons-link crayons-link--contentful" href="https://dev.to/kingsconsult/laravel-credit-card-validation-58ig">
+              Laravel Credit Card Validation
+              <div class="crayons-link__secondary -ml-1">
+                  <span class="mr-1"><span class="opacity-50">#</span>php</span>
+                  <span class="mr-1"><span class="opacity-50">#</span>laravel</span>
+                  <span class="mr-1"><span class="opacity-50">#</span>webdev</span>
+                  <span class="mr-1"><span class="opacity-50">#</span>security</span>
+              </div>
+            </a>
+            <a class="crayons-link crayons-link--contentful" href="https://dev.to/kingsconsult/schedule-a-task-to-run-at-a-specific-time-in-laravel-cronjob-5aaf">
+              Schedule a task to run at a specific time in laravel (CronJob)
+              <div class="crayons-link__secondary -ml-1">
+                  <span class="mr-1"><span class="opacity-50">#</span>php</span>
+                  <span class="mr-1"><span class="opacity-50">#</span>laravel</span>
+                  <span class="mr-1"><span class="opacity-50">#</span>webdev</span>
+                  <span class="mr-1"><span class="opacity-50">#</span>aws</span>
+              </div>
+            </a>
+            <a class="crayons-link crayons-link--contentful" href="https://dev.to/kingsconsult/customize-laravel-jetstream-registration-and-login-210f">
+              Customize Laravel Jetstream (Registration and Login)
+              <div class="crayons-link__secondary -ml-1">
+                  <span class="mr-1"><span class="opacity-50">#</span>jetstream</span>
+                  <span class="mr-1"><span class="opacity-50">#</span>laravel</span>
+                  <span class="mr-1"><span class="opacity-50">#</span>php</span>
+                  <span class="mr-1"><span class="opacity-50">#</span>webdev</span>
+              </div>
+            </a>
+        </div>
+      </div>
+</div>
+
+
+  </aside>
+</div>
+
+
+<div class="mod-actions-menu print-hidden"></div>
+<div data-testid="unpublish-post-modal-container" class="unpublish-post-modal-container hidden"></div>
+<div id="suspend-modal-content" class="hidden">
+  <p>
+    Once suspended, kingsconsult will not be able to comment or publish posts until their suspension is removed.
+  </p>
+
+  <div class="crayons-field mt-4">
+    <label for="suspend-reason-userid-207008" class="crayons-field__label">
+      Note:
+    </label>
+    <textarea id="suspend-reason-userid-207008" rows="4" cols="70" placeholder="Reason for suspension" class="crayons-textfield" aria-describedby="suspension-reason-error" required=""></textarea>
+    <p id="suspension-reason-error" data-testid="suspension-reason-error" class="suspend-reason-error crayons-field__description" style="color: red;" aria-live="assertive">
+    </p>
+  </div>
+  <div class="mt-4">
+    <button id="submit-user-suspend-btn" class="c-btn c-btn--primary c-btn--destructive" data-btn-action="suspend" data-reason-selector="#suspend-reason-userid-207008" data-user-id="207008" data-username="kingsconsult">
+      Submit &amp; Suspend
+    </button>
+  </div>
+</div>
+
+<div id="unsuspend-modal-content" class="hidden">
+  <p>
+    Once unsuspended, kingsconsult will be able to comment and publish posts again.
+  </p>
+
+  <div class="crayons-field mt-4">
+    <label for="unsuspend-reason-userid-207008" class="crayons-field__label">
+      Note:
+    </label>
+    <textarea id="unsuspend-reason-userid-207008" rows="4" cols="70" placeholder="Reason for unsuspension" class="crayons-textfield" aria-describedby="unsuspension-reason-error" required=""></textarea>
+    <p id="unsuspension-reason-error" data-testid="unsuspension-reason-error" class="unsuspend-reason-error crayons-field__description" style="color: red;" aria-live="assertive">
+    </p>
+  </div>
+  <div class="mt-4">
+    <button id="submit-user-unsuspend-btn" class="c-btn c-btn--primary" data-btn-action="unsuspend" data-reason-selector="#unsuspend-reason-userid-207008" data-user-id="207008" data-username="kingsconsult">
+      Submit &amp; Unsuspend
+    </button>
+  </div>
+</div>
+
+<div id="unpublish-all-posts" class="hidden">
+  <p>
+    Once unpublished, all posts by kingsconsult will become hidden and only accessible to themselves.
+  </p>
+  <p class="mt-2">
+    If kingsconsult is not suspended, they can still re-publish their posts from their dashboard.
+  </p>
+  <p class="mt-2"><label for="note_content">Note:</label><textarea name="note[content]" id="note_content" class="crayons-textfield note_content" placeholder="Note text"></textarea></p>
+  <div class="mt-4">
+    <button id="unpublish-all-posts-submit-btn" class="c-btn c-btn--destructive c-btn--primary" data-user-id="207008">
+      Unpublish all posts
+    </button>
+  </div>
+</div>
+
+<div id="unpublish-post-modal" class="hidden">
+  <p>
+    Once unpublished, this post will become invisible to the public and only accessible to Kingsconsult.
+  </p>
+  <p>They can still re-publish the post if they are not suspended.</p>
+  <div class="mt-4">
+    <button destructive="" variant="primary" class="c-btn c-btn--primary c-btn--destructive" id="confirm-unpublish-post-action">
+      Unpublish Post
+    </button>
+  </div>
+</div>
+
+<div id="flag-user-modal-content" class="hidden">
+  <p>
+    Thanks for keeping DEV Community 👩‍💻👨‍💻 safe. Here is what you can do to flag kingsconsult:
+  </p>
+
+  <div class="crayons-field crayons-field--radio mt-4">
+    <input type="radio" id="flag-user-radio-input" name="flag-user-radio-input" class="crayons-radio" data-reactable-id="207008" data-category="vomit" data-reactable-type="User">
+    <label for="flag-user-radio-input" class="crayons-field__label">
+      Make all posts by kingsconsult less visible
+      <p class="crayons-field__description">
+        kingsconsult consistently posts content that violates DEV Community 👩‍💻👨‍💻's
+        code of conduct because it is harassing, offensive or spammy.
+      </p>
+    </label>
+  </div>
+
+  <div class="mt-4">
+    <a href="javascript:void(0);" id="report-inappropriate-content" data-report-abuse-link="/report-abuse?url=https://dev.to/kingsconsult/how-to-consume-restful-apis-in-laravel-8-and-laravel-7-4gii">
+      Report other inappropriate conduct
+    </a>
+  </div>
+
+  <div class="mt-6">
+    <p id="unselected-radio-error" data-testid="unselected-radio-error" class="crayons-field__description mb-4" style="color: red;" aria-live="assertive">
+    </p>
+    <button id="confirm-flag-user-action" class="c-btn c-btn--primary c-btn--destructive" data-category="vomit" data-reactable-type="User" data-user-id="207008" data-username="kingsconsult">
+      Confirm Flag
+    </button>
+  </div>
+</div>
+
+<div id="unflag-user-modal-content" class="hidden">
+  <p>
+    Unflagging kingsconsult will restore default visibility to their posts.
+  </p>
+
+  <div class="mt-6">
+    <button id="confirm-unflag-user-action" class="c-btn c-btn--primary" data-category="vomit" data-reactable-type="User" data-user-id="207008" data-username="kingsconsult">
+      Confirm Unflag
+    </button>
+  </div>
+</div>
+
+
+<div class="fullscreen-code js-fullscreen-code"></div>
+<script src="./consume-api_files/runtime_followButtons-01476a1fef5a2189e646.js.download" defer="defer"></script>
+<script src="./consume-api_files/6-a1b4925da91d4a35addb.chunk.js.download" defer="defer"></script>
+<script src="./consume-api_files/followButtons-0dbedddebeec55767224.chunk.js.download" defer="defer"></script>
+
+  <script>
+    var waitingOnPodcast = setInterval(function() {
+  if (typeof initializePodcastPlayback !== 'undefined') {
+    initializePodcastPlayback();
+    clearInterval(waitingOnPodcast);
+  }
+}, 1);
+
+    if (document.head.querySelector('meta[name="user-signed-in"][content="true"]')) {
+  function displayPollResults(json) {
+    var totalVotes = json.voting_data.votes_count;
+    json.voting_data.votes_distribution.forEach(function(point) {
+      var pollOptionItem = document.getElementById('poll_option_list_item_'+point[0]);
+      var optionText = document.getElementById('poll_option_label_'+point[0]).textContent;
+      if (json.user_vote_poll_option_id === point[0]) {
+        var votedClass = 'optionvotedfor'
+      } else {
+        var votedClass = 'optionnotvotedfor'
+      }
+      if (totalVotes === 0) {
+        var percent = 0;
+      } else {
+        var percent = (point[1]/totalVotes)*100;
+      }
+      var roundedPercent = Math.round( percent * 10 ) / 10
+      var percentFromRight = (100-roundedPercent)
+      var html = '<span><span class="ltag-votepercent ltag-'+votedClass+'" style="right:'+percentFromRight+'%"></span>        <span class="ltag-votepercenttext">'+optionText+' — '+roundedPercent+'%</span></span>';
+      pollOptionItem.innerHTML = html;
+      pollOptionItem.classList.add('already-voted')
+      document.getElementById('showmethemoney-'+json.poll_id).innerHTML = '<span class="ltag-voting-results-count">'+totalVotes+' total votes</span>';
+    })
+  }
+
+  var polls = document.getElementsByClassName('ltag-poll');
+  for (var i = 0; i < polls.length; i += 1) {
+    var poll = polls[i]
+    var pollId = poll.dataset.pollId
+    window.fetch('/poll_votes/'+pollId)
+    .then(function(response){
+      response.json().then(
+        function(json) {
+          if (json.voted) {
+            displayPollResults(json)
+          } else {
+            var els = document.getElementById('poll_'+json.poll_id).getElementsByClassName('ltag-polloption');
+
+            for (i = 0; i < els.length; i += 1) {
+              els[i].addEventListener('click', function(e) {
+                var tokenMeta = document.querySelector("meta[name='csrf-token']")
+                if (!tokenMeta) {
+                  alert('Whoops. There was an error. Your vote was not counted. Try refreshing the page.')
+                  return
+                }
+                var csrfToken = tokenMeta.getAttribute('content')
+                var optionId = e.target.dataset.optionId
+                window.fetch('/poll_votes', {
+                  method: 'POST',
+                  headers: {
+                    'X-CSRF-Token': csrfToken,
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({poll_vote: { poll_option_id: optionId } }),
+                  credentials: 'same-origin',
+                }).then(function(response){
+                  response.json().then(function(j){displayPollResults(j)})
+                })
+              });
+            }
+
+            document.getElementById('showmethemoney-'+json.poll_id).addEventListener('click', function() {
+              pollId = this.dataset.pollId
+              window.fetch('/poll_skips', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-Token': csrfToken,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({poll_skip: {poll_id: pollId }}),
+                credentials: 'same-origin',
+              }).then(function(response){
+                response.json().then(function(j){displayPollResults(j)})
+              })
+            });
+          }
+        }
+      )
+    })
+  }
+} else {
+    var els = document.getElementsByClassName('ltag-poll')
+    for (i = 0; i < els.length; i += 1) {
+      els[i].onclick = function(e) {
+        if (typeof showLoginModal !== "undefined") {
+          showLoginModal();
+        }
+      }
+    }
+}
+
+    function activateRunkitTags() {
+  if (!areAnyRunkitTagsPresent())
+    return
+
+  var checkRunkit = setInterval(function() {
+    try {
+      dynamicallyLoadRunkitLibrary()
+
+      if (typeof(RunKit) === 'undefined') {
+        return
+      }
+
+      replaceTagContentsWithRunkitWidget()
+      clearInterval(checkRunkit);
+    } catch(e) {
+      console.error(e);
+      clearInterval(checkRunkit);
+    }
+  }, 200);
+}
+
+function isRunkitTagAlreadyActive(runkitTag) {
+  return runkitTag.querySelector("iframe") !== null;
+};
+
+function areAnyRunkitTagsPresent() {
+  var presentRunkitTags = document.getElementsByClassName("runkit-element");
+
+  return presentRunkitTags.length > 0
+}
+
+function replaceTagContentsWithRunkitWidget() {
+  var targets = document.getElementsByClassName("runkit-element");
+  for (var i = 0; i < targets.length; i++) {
+    if (isRunkitTagAlreadyActive(targets[i])) {
+      continue;
+    }
+
+    var wrapperContent = targets[i].textContent;
+    if (/^(<iframe src)/.test(wrapperContent) === false) {
+      if (targets[i].children.length > 0) {
+        var preamble = targets[i].children[0].textContent;
+        var content = targets[i].children[1].textContent;
+        targets[i].innerHTML = "";
+        var notebook = RunKit.createNotebook({
+          element: targets[i],
+          source: content,
+          preamble: preamble
+        });
+      }
+    }
+  }
+};
+
+function dynamicallyLoadRunkitLibrary() {
+  if (typeof(dynamicallyLoadScript) === "undefined")
+    return
+
+  dynamicallyLoadScript("//embed.runkit.com")
+}
+
+activateRunkitTags();
+
+    var videoPreviews = document.getElementsByClassName("ltag__twitter-tweet__media__video-wrapper");
+[].forEach.call(videoPreviews, function(el) {
+  el.onclick = function(e) {
+    var divHeight = el.offsetHeight;
+    el.style.maxHeight = divHeight + "px";
+    el.getElementsByClassName("ltag__twitter-tweet__media--video-preview")[0].style.display = "none";
+    el.getElementsByClassName("ltag__twitter-tweet__video")[0].style.display = "block";
+    el.getElementsByTagName("video")[0].play();
+  }
+});
+var tweets = document.getElementsByClassName("ltag__twitter-tweet__main");
+[].forEach.call(tweets, function(tweet){
+  tweet.onclick = function(e) {
+    if (e.target.nodeName == "A" || e.target.parentElement.nodeName == "A") {
+      return;
+    }
+    window.open(tweet.dataset.url,"_blank");
+  }
+});
+
+  </script>
+
+    
+  </div>
+</div>
+    
+<footer class="crayons-footer print-hidden">
+  <div id="footer-container" class="crayons-footer__container">
+    <p class="fs-s crayons-footer__description">
+      <a class="c-link c-link--branded fw-medium" aria-label="DEV Community 👩‍💻👨‍💻 Home" href="https://dev.to/">DEV Community 👩‍💻👨‍💻</a> — A constructive and inclusive social network for software developers. With you every step of your journey.
+    </p>
+
+    <ul class="footer__nav-links flex gap-2 justify-center flex-wrap fs-s p-0" style="">
+        <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/">
+      Home
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/listings">
+      Listings
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/pod">
+      Podcasts
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/videos">
+      Videos
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/tags">
+      Tags
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/faq">
+      FAQ
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://shop.forem.com/">
+      Forem Shop
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/sponsorships">
+      Sponsors
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/about">
+      About
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/contact">
+      Contact
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/guides">
+      Guides
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/software-comparisons">
+      Software comparisons
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+
+    </ul>
+
+    <ul class="footer__nav-links flex gap-2 justify-center flex-wrap fs-s p-0" style="">
+        <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/code-of-conduct">
+      Code of Conduct
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/privacy">
+      Privacy Policy
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+  <li class="footer__nav-link flex items-center">
+    <a href="https://dev.to/terms">
+      Terms of use
+    </a>
+    <span class="dot ml-2"></span>
+  </li>
+
+    </ul>
+
+    <div class="fs-s">
+      <p>Built on <a class="c-link c-link--branded" target="_blank" rel="noopener" href="https://www.forem.com/">Forem</a> — the <a target="_blank" rel="noopener" class="c-link c-link--branded" href="https://dev.to/t/opensource">open source</a> software that powers <a target="_blank" rel="noopener" class="c-link c-link--branded" href="https://dev.to/">DEV</a> and other inclusive communities.</p>
+      <p>Made with love and <a target="_blank" rel="noopener" class="c-link c-link--branded" href="https://dev.to/t/rails">Ruby on Rails</a>. DEV Community 👩‍💻👨‍💻 <span title="copyright">©</span> 2016 - 2023.</p>
+    </div>
+  </div>
+</footer>
+<div id="snack-zone"><div class="hidden"></div></div>
+
+    <div id="global-signup-modal" class="authentication-modal hidden">
+  <div class="authentication-modal__container">
+    <figure class="authentication-modal__image-container">
+      <img class="authentication-modal__image" src="./consume-api_files/devlogo-pwa-512(1).png" alt="DEV Community 👩‍💻👨‍💻" loading="lazy">
+    </figure>
+    <div class="authentication-modal__content">
+      <p class="authentication-modal__description">
+          We're a place where coders share, stay up-to-date and grow their careers.
+      </p>
+    </div>
+    <div class="authentication-modal__actions">
+      <a href="https://dev.to/enter" class="crayons-btn" aria-label="Log in" data-no-instant="">
+        Log in
+      </a>
+      <a href="https://dev.to/enter?state=new-user" class="crayons-btn crayons-btn--ghost-brand js-global-signup-modal__create-account" aria-label="Create new account" data-no-instant="">
+        Create account
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="./consume-api_files/runtime_signupModalShortcuts-6ebd31d67e873d607251.js.download" defer="defer"></script>
+<script src="./consume-api_files/signupModalShortcuts-a175d4c081513e1530e7.chunk.js.download" defer="defer"></script>
+
+  <div id="i18n-translations" data-translations="{&quot;en&quot;:{&quot;core&quot;:{&quot;add_comment&quot;:&quot;Add comment&quot;,&quot;beta&quot;:&quot;beta&quot;,&quot;comment&quot;:&quot;Comment&quot;,&quot;copy_link&quot;:&quot;Copy link&quot;,&quot;edit_profile&quot;:&quot;Edit profile&quot;,&quot;follow&quot;:&quot;Follow&quot;,&quot;follow_back&quot;:&quot;Follow back&quot;,&quot;following&quot;:&quot;Following&quot;,&quot;like&quot;:&quot;Like&quot;,&quot;loading&quot;:&quot;loading...&quot;,&quot;reaction&quot;:&quot;Reaction&quot;,&quot;report_abuse&quot;:&quot;Report abuse&quot;,&quot;search&quot;:&quot;Search&quot;,&quot;success_settings&quot;:&quot;Successfully updated settings.&quot;}}}"></div>
+  
+  
+</body></html>
