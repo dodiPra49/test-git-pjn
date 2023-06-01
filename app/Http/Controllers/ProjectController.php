@@ -22,7 +22,7 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
 
-        YYYY
+        YYYY di edit di server git
         $projects = Project::where([
             ['name', '!=', Null],
             [function ($query) use ($request) {
